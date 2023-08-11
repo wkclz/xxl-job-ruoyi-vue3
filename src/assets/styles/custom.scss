@@ -1,0 +1,6 @@
+// 自定义 css
+
+// 修复 table 内 cell 打开图片被 row 覆盖问题
+.el-table .el-table__cell {
+  z-index: auto !important;
+}
