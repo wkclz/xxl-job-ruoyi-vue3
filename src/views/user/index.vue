@@ -1,6 +1,116 @@
 <template>
-  <div>User</div>
-</template>
-<script setup>
+   <div class="app-container">
+     <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="68px">
+        <el-form-item label="角色" prop="role">
+          <el-select v-model="queryParams.role" placeholder="角色" clearable filterable style='width: 120px' @change="handleQuery">
+            <el-option label="全部" :value="-1"/>
+            <el-option label="管理员" :value="1"/>
+            <el-option label="普通用户" :value="0"/>
+          </el-select>
+        </el-form-item>
+         <el-form-item label="账号" prop="username">
+            <el-input v-model="queryParams.username" placeholder="账号" clearable style="width: 160px" @keyup.enter="handleQuery"/>
+         </el-form-item>
+         <el-form-item>
+            <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+            <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+         </el-form-item>
+        <el-form-item style="float: right;">
+          <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
+        </el-form-item>
+      </el-form>
+      <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
+        <el-table-column label="ID" align="center" prop="id" width="80"/>
+        <el-table-column label="账号" align="left" prop="username" min-width="200" :show-overflow-tooltip="true" />
+        <el-table-column label="角色" align="left" prop="role" min-width="200">
+          <template #default="scope">
+            <div>
+              <span v-if="scope.row.role === 1">管理员</span>
+              <span v-if="scope.row.role === 0">普通用户</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
+          <template #default="scope">
+            <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
+            <el-button type="text" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
+     <pagination
+         v-show="total > 0"
+         :total="total"
+         v-model:page="queryParams.current"
+         v-model:limit="queryParams.size"
+         @pagination="getList"
+     />
+
+     <edit ref="editRef" @change="getList"/>
+   </div>
+</template>
+
+<script setup name="User">
+import {userPage, userRemove} from "@/api/user";
+import Edit from "./components/edit"
+
+const tableHeight = computed(() => window.innerHeight - 216);
+const { proxy } = getCurrentInstance();
+
+const dataList = ref([]);
+const open = ref(false);
+const loading = ref(false);
+const total = ref(0);
+
+const queryParams = ref({
+  current: 0,
+  size: 10,
+  role: -1,
+  username: undefined,
+});
+
+
+/** 查询参数列表 */
+function getList() {
+  loading.value = true;
+  userPage(queryParams.value).then(res => {
+    console.log('userPage.res', res)
+    dataList.value = res.data;
+    // res.recordsFiltered
+    total.value = res.recordsTotal;
+  }).finally(() => {
+    loading.value = false;
+  });
+}
+
+/** 搜索按钮操作 */
+function handleQuery() {
+  queryParams.value.current = 0;
+  getList();
+}
+
+/** 重置按钮操作 */
+function resetQuery() {
+  proxy.resetForm("queryRef");
+  handleQuery();
+}
+
+function handleAdd() {
+  proxy.$refs["editRef"].handleEdit();
+}
+function handleUpdate(row) {
+  proxy.$refs["editRef"].handleEdit(row);
+}
+
+/** 删除按钮操作 */
+function handleDelete(row) {
+  proxy.$modal.confirm('是否确认删除:"' + row.username + '"？').then(() => {
+    userRemove({id: row.id}).then(res => {
+      getList();
+      proxy.$modal.msgSuccess("删除成功");
+    })
+  }).catch(() => {});
+}
+
+getList();
 </script>

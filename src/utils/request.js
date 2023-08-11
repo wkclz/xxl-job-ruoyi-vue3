@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ElNotification , ElMessageBox, ElMessage, ElLoading } from 'element-plus'
-import { getToken } from '@/utils/auth'
+import { getToken, removeToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import { tansParams, blobValidate } from '@/utils/ruoyi'
 import cache from '@/plugins/cache'
@@ -11,7 +11,6 @@ import router from "@/router";
 let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
-const appCode = import.meta.env.VITE_APP_APP_CODE;
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -65,18 +64,25 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(res => {
   console.log('res', res);
-  // 未设置状态码则默认成功状态
-  const code = res.data.code || -1;
+  const status = res.status || 200;
+
+  // xxl-job 是后端指令跳转登录，此处要转换成前端
+  if (status === 302) {
+    removeToken();
+    location.href = '/';
+  }
+
+  // 登录成功【特殊处理】
+  if (status === 200 && res.data.code && res.data.code === 200 && res.config.url === '/login') {
+    return  Promise.resolve(true);
+  }
+
+  const code = res.data.code || status;
   // 获取错误信息
   const msg = errorCode[code] || res.data.msg || errorCode['default']
   // 二进制数据则直接返回
   if(res.request.responseType ===  'blob' || res.request.responseType ===  'arraybuffer'){
     return res.data
-  }
-
-  // 登录成功【特殊处理】
-  if (code === 200 && res.config.url === '/login') {
-    return  Promise.resolve(true);
   }
 
   if (code === 10001 || code === 10002 || code === 10005 || code === 10006 || code === 10007) {
@@ -104,33 +110,46 @@ service.interceptors.response.use(res => {
       }
     }
     return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
-  } else if (code === 500) {
+  }
+  if (code === 500) {
     ElMessage({
       message: msg,
       type: 'error'
     })
     return Promise.reject(new Error(msg))
-  } else if (code !== 1) {
+  }
+  if (code !== 200) {
     ElNotification.error({
       title: msg
     })
     return Promise.reject('error')
-  } else {
-    return  Promise.resolve(res.data)
   }
+  console.log('200')
+  return  Promise.resolve(res.data)
 },
     error => {
     console.error('err: ', error);
     let { message } = error;
+
+    // 本地代理调试情况下，302 到登录，将是 404 异常
+    if (message.includes("code 404")) {
+      // 本地代理调试情况下，302 到登录，将是 404 异常
+      console.log('404 了')
+      removeToken();
+      location.href = '/login';
+      return Promise.reject(message);
+    }
+
     if (message === "Network Error") {
       message = "后端接口连接异常";
     }
-    else if (message.includes("timeout")) {
+    if (message.includes("timeout")) {
       message = "系统接口请求超时";
     }
-    else if (message.includes("Request failed with status code")) {
+    if (message.includes("Request failed with status code")) {
       message = "系统接口" + message.substr(message.length - 3) + "异常: ";
     }
+
     ElMessage({
       message: message,
       type: 'error',
@@ -165,14 +184,6 @@ export function download(url, params, filename, config) {
     ElMessage.error('下载文件出现错误，请联系管理员！')
     downloadLoadingInstance.close();
   })
-}
-
-function guid() {
-  return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, (c) => {
-    const r = (Math.random() * 16) || 0;
-    const integer = Math.trunc(r);
-    return integer.toString(16);
-  });
 }
 
 export default service
