@@ -37,3 +37,13 @@ export function jobgroupRemove(data) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
     });
 }
+
+export function jobgroupLoadById(data) {
+    return request({
+        url: '/jobgroup/loadById',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+

@@ -144,23 +144,30 @@ function handleEdit(row) {
   if (!row || !row.id) {
     open.value = true;
     title.value = "添加";
+    if (row) {
+      form.value = JSON.parse(JSON.stringify(row))
+      initScheduleConf();
+    }
   } else {
     form.value = JSON.parse(JSON.stringify(row))
-    if (form.value.scheduleType === 'CRON') {
-      form.value.schedule_conf_CRON = form.value.scheduleConf;
-    }
-    if (form.value.scheduleType === 'FIX_RATE') {
-      form.value.schedule_conf_FIX_RATE = form.value.scheduleConf;
-    }
-    if (form.value.scheduleType === 'FIX_DELAY') {
-      form.value.schedule_conf_FIX_DELAY = form.value.scheduleConf;
-    }
+    initScheduleConf();
     open.value = true;
     title.value = "修改";
   }
   getApps();
 }
 
+function initScheduleConf() {
+  if (form.value.scheduleType === 'CRON') {
+    form.value.schedule_conf_CRON = form.value.scheduleConf;
+  }
+  if (form.value.scheduleType === 'FIX_RATE') {
+    form.value.schedule_conf_FIX_RATE = form.value.scheduleConf;
+  }
+  if (form.value.scheduleType === 'FIX_DELAY') {
+    form.value.schedule_conf_FIX_DELAY = form.value.scheduleConf;
+  }
+}
 
 function getApps() {
   jobgroupPage({start: 0,length: 10000}).then(res => {

@@ -36,3 +36,21 @@ export function jobinfoRemove(data) {
 }
 
 
+export function jobinfoTrigger(data) {
+    return request({
+        url: '/jobinfo/trigger',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+
+export function jobinfoNextTriggerTime(data) {
+    return request({
+        url: '/jobinfo/nextTriggerTime',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+

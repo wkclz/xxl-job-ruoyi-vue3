@@ -20,38 +20,50 @@
        <el-form-item label="负责人" prop="author">
          <el-input v-model="queryParams.author" placeholder="负责人" clearable style="width: 120px" @keyup.enter="handleQuery"/>
        </el-form-item>
-         <el-form-item>
-            <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-            <el-button icon="Refresh" @click="resetQuery">重置</el-button>
-         </el-form-item>
-        <el-form-item style="float: right;">
-          <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-        </el-form-item>
-      </el-form>
-      <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
-        <el-table-column label="ID" align="center" prop="id" width="80"/>
-        <el-table-column label="任务描述" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" />
-        <el-table-column label="调度类型" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" >
-          <template #default="scope">
-            <span>{{scope.row.scheduleType}}: {{scope.row.scheduleConf}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="120" :show-overflow-tooltip="true" >
-          <template #default="scope">
-            <span>{{scope.row.glueType}}: {{scope.row.executorHandler}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="负责人" align="left" prop="author" min-width="120" :show-overflow-tooltip="true" />
-        <el-table-column label="状态" align="left" prop="triggerStatus" min-width="100">
-          <template #default="scope"><dict-tag :options="TriggerStatus" :value="scope.row.triggerStatus"/></template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
-          <template #default="scope">
-            <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button type="text" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+       <el-form-item>
+         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+       </el-form-item>
+       <el-form-item style="float: right;">
+         <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
+       </el-form-item>
+     </el-form>
+     <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
+       <el-table-column label="ID" align="center" prop="id" width="80"/>
+       <el-table-column label="任务描述" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" />
+       <el-table-column label="调度类型" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" >
+         <template #default="scope">
+           <span>{{scope.row.scheduleType}}: {{scope.row.scheduleConf}}</span>
+         </template>
+       </el-table-column>
+       <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="120" :show-overflow-tooltip="true" >
+         <template #default="scope">
+           <span>{{scope.row.glueType}}: {{scope.row.executorHandler}}</span>
+         </template>
+       </el-table-column>
+       <el-table-column label="负责人" align="left" prop="author" min-width="120" :show-overflow-tooltip="true" />
+
+       <el-table-column label="状态" align="left" prop="triggerStatus" min-width="100" fixed='right'>
+         <template #default="scope"><dict-tag :options="TriggerStatus" :value="scope.row.triggerStatus"/></template>
+       </el-table-column>
+
+       <el-table-column label="操作" align="center" fixed='right' width="268" class-name="small-padding fixed-width">
+         <template #default="scope">
+           <el-button type="text" icon="VideoPlay" @click="handleExec(scope.row)">执行</el-button>
+           <el-button type="text" icon="Notebook" @click="handleLog(scope.row)">日志</el-button>
+           <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
+           <el-dropdown @command="(command) => handleCommand(command, scope.row)" trigger="hover">
+             <el-button type="text" icon="el-icon-d-arrow-right">更多<el-icon><DArrowRight /></el-icon></el-button>
+             <template #dropdown>
+               <el-dropdown-item command="handleCopy" icon="DocumentCopy">复制</el-dropdown-item>
+               <el-dropdown-item command="handleReg" icon="Promotion">注册节点</el-dropdown-item>
+               <el-dropdown-item command="handleNexttime" icon="Clock">下次执行时间</el-dropdown-item>
+               <el-dropdown-item command="handleDelete" icon="DeleteFilled">删除</el-dropdown-item>
+             </template>
+           </el-dropdown>
+         </template>
+       </el-table-column>
+     </el-table>
 
      <pagination
          v-show="total > 0"
@@ -61,7 +73,11 @@
          @pagination="getList"
      />
 
+
      <edit ref="editRef" @change="getList"/>
+     <exec ref="execRef"/>
+     <reg ref="regRef"/>
+     <next-tigger-time ref="nextTiggerTimeRef"/>
    </div>
 </template>
 
@@ -69,6 +85,9 @@
 import {jobinfoPage, jobinfoRemove} from "@/api/jobinfo";
 import {jobgroupPage} from "@/api/jobgroup";
 import Edit from "./components/edit"
+import Exec from "./components/exec"
+import Reg from "./components/reg"
+import NextTiggerTime from "./components/nextTiggerTime.vue"
 import TriggerStatus from "@/api/dict/TriggerStatus.json"
 
 const tableHeight = computed(() => window.innerHeight - 216);
@@ -132,11 +151,48 @@ function resetQuery() {
   handleQuery();
 }
 
+
+function handleCommand(command, row) {
+  switch (command) {
+    case "handleCopy":
+      handleCopy(row);
+      break;
+    case "handleReg":
+      handleReg(row);
+      break;
+    case "handleNexttime":
+      handleNexttime(row);
+      break;
+    case "handleDelete":
+      handleDelete(row);
+      break;
+    default:
+      break;
+  }
+}
+
 function handleAdd() {
   proxy.$refs["editRef"].handleEdit();
 }
+function handleExec(row) {
+  proxy.$refs["execRef"].handleEdit(row);
+}
+function handleLog(row) {
+  console.log('handleLog');
+}
 function handleUpdate(row) {
   proxy.$refs["editRef"].handleEdit(row);
+}
+function handleCopy(row) {
+  row.id = undefined;
+  proxy.$refs["editRef"].handleEdit(row);
+}
+function handleReg(row) {
+  proxy.$refs["regRef"].handleEdit(row);
+}
+function handleNexttime(row) {
+  proxy.$refs["nextTiggerTimeRef"].handleEdit(row);
+
 }
 
 /** 删除按钮操作 */
