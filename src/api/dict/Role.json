@@ -1,0 +1,17 @@
+[
+  {
+    "value": -1,
+    "label": "全部",
+    "elTagType": "info"
+  },
+  {
+    "value": 1,
+    "label": "管理员",
+    "elTagType": "danger"
+  },
+  {
+    "value": 0,
+    "label": "普通用户",
+    "elTagType": "primary"
+  }
+]

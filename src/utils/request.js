@@ -63,7 +63,6 @@ service.interceptors.request.use(config => {
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-  console.log('res', res);
   const status = res.status || 200;
 
   // xxl-job 是后端指令跳转登录，此处要转换成前端
@@ -124,7 +123,6 @@ service.interceptors.response.use(res => {
     })
     return Promise.reject('error')
   }
-  console.log('200')
   return  Promise.resolve(res.data)
 },
     error => {

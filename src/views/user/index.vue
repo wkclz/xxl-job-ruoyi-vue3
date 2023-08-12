@@ -2,10 +2,8 @@
    <div class="app-container">
      <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="68px">
         <el-form-item label="角色" prop="role">
-          <el-select v-model="queryParams.role" placeholder="角色" clearable filterable style='width: 120px' @change="handleQuery">
-            <el-option label="全部" :value="-1"/>
-            <el-option label="管理员" :value="1"/>
-            <el-option label="普通用户" :value="0"/>
+          <el-select v-model="queryParams.role" placeholder="角色" filterable style='width: 120px' @change="handleQuery">
+            <el-option v-for="dict in Role" :key="dict.value" :label="dict.label" :value="dict.value"/>
           </el-select>
         </el-form-item>
          <el-form-item label="账号" prop="username">
@@ -23,12 +21,7 @@
         <el-table-column label="ID" align="center" prop="id" width="80"/>
         <el-table-column label="账号" align="left" prop="username" min-width="200" :show-overflow-tooltip="true" />
         <el-table-column label="角色" align="left" prop="role" min-width="200">
-          <template #default="scope">
-            <div>
-              <span v-if="scope.row.role === 1">管理员</span>
-              <span v-if="scope.row.role === 0">普通用户</span>
-            </div>
-          </template>
+          <template #default="scope"><dict-tag :options="Role" :value="scope.row.role"/></template>
         </el-table-column>
         <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
@@ -54,6 +47,8 @@
 import {userPage, userRemove} from "@/api/user";
 import Edit from "./components/edit"
 
+import Role from "@/api/dict/Role.json"
+
 const tableHeight = computed(() => window.innerHeight - 216);
 const { proxy } = getCurrentInstance();
 
@@ -63,8 +58,8 @@ const loading = ref(false);
 const total = ref(0);
 
 const queryParams = ref({
-  current: 0,
-  size: 10,
+  start: 0,
+  length: 10,
   role: -1,
   username: undefined,
 });
@@ -74,7 +69,6 @@ const queryParams = ref({
 function getList() {
   loading.value = true;
   userPage(queryParams.value).then(res => {
-    console.log('userPage.res', res)
     dataList.value = res.data;
     // res.recordsFiltered
     total.value = res.recordsTotal;
@@ -85,7 +79,7 @@ function getList() {
 
 /** 搜索按钮操作 */
 function handleQuery() {
-  queryParams.value.current = 0;
+  queryParams.value.start = 0;
   getList();
 }
 
