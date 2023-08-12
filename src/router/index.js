@@ -81,7 +81,7 @@ export const constantRoutes = [
         path: '/jobinfo',
         component: () => import('@/views/jobinfo/index'),
         name: 'Jobinfo',
-        meta: { title: '任务管理', icon: 'user' }
+        meta: { title: '任务管理', icon: 'time-range' }
       }
     ]
   },
@@ -95,7 +95,7 @@ export const constantRoutes = [
         path: '/joblog',
         component: () => import('@/views/joblog/index'),
         name: 'Joblog',
-        meta: { title: '调度日志', icon: 'user' }
+        meta: { title: '调度日志', icon: 'log' }
       }
     ]
   },
@@ -109,7 +109,7 @@ export const constantRoutes = [
         path: '/jobgroup',
         component: () => import('@/views/jobgroup/index'),
         name: 'Jobgroup',
-        meta: { title: '执行器管理', icon: 'user' }
+        meta: { title: '执行器管理', icon: 'list' }
       }
     ]
   },
@@ -137,7 +137,7 @@ export const constantRoutes = [
         path: '/help',
         component: () => import('@/views/help/index'),
         name: 'Help',
-        meta: { title: '使用教程', icon: 'user' }
+        meta: { title: '使用教程', icon: 'guide' }
       }
     ]
   }
