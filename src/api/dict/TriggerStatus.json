@@ -1,0 +1,17 @@
+[
+  {
+    "value": -1,
+    "label": "全部",
+    "elTagType": "info"
+  },
+  {
+    "value": 1,
+    "label": "停止",
+    "elTagType": "success"
+  },
+  {
+    "value": 0,
+    "label": "启动",
+    "elTagType": "danger"
+  }
+]

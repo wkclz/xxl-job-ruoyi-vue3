@@ -1,0 +1,12 @@
+[
+  {
+    "value": "DO_NOTHING",
+    "label": "忽略",
+    "elTagType": "primary"
+  },
+  {
+    "value": "FIRE_ONCE_NOW",
+    "label": "立即执行一次",
+    "elTagType": "primary"
+  }
+]

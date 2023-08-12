@@ -1,0 +1,37 @@
+[
+  {
+    "value": "BEAN",
+    "label": "BEAN",
+    "elTagType": "primary"
+  },
+  {
+    "value": "GLUE_GROOVY",
+    "label": "GLUE(Java)",
+    "elTagType": "primary"
+  },
+  {
+    "value": "GLUE_SHELL",
+    "label": "GLUE(Shell)",
+    "elTagType": "primary"
+  },
+  {
+    "value": "GLUE_PYTHON",
+    "label": "GLUE(Python)",
+    "elTagType": "primary"
+  },
+  {
+    "value": "GLUE_PHP",
+    "label": "GLUE(PHP)",
+    "elTagType": "primary"
+  },
+  {
+    "value": "GLUE_NODEJS",
+    "label": "GLUE(Nodejs)",
+    "elTagType": "primary"
+  },
+  {
+    "value": "GLUE_POWERSHELL",
+    "label": "GLUE(PowerShell)",
+    "elTagType": "primary"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "value": "NONE",
+    "label": "无",
+    "elTagType": "primary"
+  },
+  {
+    "value": "CRON",
+    "label": "CRON",
+    "elTagType": "primary"
+  },
+  {
+    "value": "FIX_RATE",
+    "label": "固定速率",
+    "elTagType": "primary"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "value": "SERIAL_EXECUTION",
+    "label": "单机串行",
+    "elTagType": "primary"
+  },
+  {
+    "value": "DISCARD_LATER",
+    "label": "丢弃后续调度",
+    "elTagType": "primary"
+  },
+  {
+    "value": "COVER_EARLY",
+    "label": "覆盖之前调度",
+    "elTagType": "primary"
+  }
+]

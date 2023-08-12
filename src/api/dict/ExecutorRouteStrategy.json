@@ -1,0 +1,53 @@
+[
+  {
+    "value": "FIRST",
+    "label": "第一个",
+    "elTagType": "primary"
+  },
+  {
+    "value": "LAST",
+    "label": "最后一个",
+    "elTagType": "primary"
+  },
+  {
+    "value": "ROUND",
+    "label": "轮询",
+    "elTagType": "primary"
+  },
+  {
+    "value": "RANDOM",
+    "label": "随机",
+    "elTagType": "primary"
+  },
+  {
+    "value": "CONSISTENT_HASH",
+    "label": "一致性HASH",
+    "elTagType": "primary"
+  },
+  {
+    "value": "LEAST_FREQUENTLY_USED",
+    "label": "最不经常使用",
+    "elTagType": "primary"
+  },
+  {
+    "value": "LEAST_RECENTLY_USED",
+    "label": "最近最久未使用",
+    "elTagType": "primary"
+  },
+  {
+    "value": "FAILOVER",
+    "label": "故障转移",
+    "elTagType": "primary"
+  },
+  {
+    "value": "BUSYOVER",
+    "label": "忙碌转移",
+    "elTagType": "primary"
+  },
+  {
+    "value": "SHARDING_BROADCAST",
+    "label": "分片广播",
+    "elTagType": "primary"
+  }
+]
+

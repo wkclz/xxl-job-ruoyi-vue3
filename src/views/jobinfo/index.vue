@@ -1,6 +1,153 @@
 <template>
-  <div>jobinfo</div>
-</template>
-<script setup>
+   <div class="app-container">
+     <el-form :model="queryParams" ref="queryRef" :inline="true">
+       <el-form-item label="执行器" prop="jobGroup">
+         <el-select v-model="queryParams.jobGroup" placeholder="执行器" filterable style='width: 200px' @change="handleQuery">
+           <el-option v-for="item in appOptions" :key="item.id" :label="item.appname" :value="item.id"/>
+         </el-select>
+       </el-form-item>
+       <el-form-item label="状态" prop="triggerStatus">
+         <el-select v-model="queryParams.triggerStatus" placeholder="状态" filterable style='width: 100px' @change="handleQuery">
+           <el-option v-for="dict in TriggerStatus" :key="dict.value" :label="dict.label" :value="dict.value"/>
+         </el-select>
+       </el-form-item>
+       <el-form-item label="任务描述" prop="jobDesc">
+         <el-input v-model="queryParams.jobDesc" placeholder="任务描述" clearable style="width: 160px" @keyup.enter="handleQuery"/>
+       </el-form-item>
+       <el-form-item label="Hander" prop="executorHandler">
+         <el-input v-model="queryParams.executorHandler" placeholder="JobHander" clearable style="width: 160px" @keyup.enter="handleQuery"/>
+       </el-form-item>
+       <el-form-item label="负责人" prop="author">
+         <el-input v-model="queryParams.author" placeholder="负责人" clearable style="width: 120px" @keyup.enter="handleQuery"/>
+       </el-form-item>
+         <el-form-item>
+            <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
+            <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+         </el-form-item>
+        <el-form-item style="float: right;">
+          <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
+        </el-form-item>
+      </el-form>
+      <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
+        <el-table-column label="ID" align="center" prop="id" width="80"/>
+        <el-table-column label="任务描述" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" />
+        <el-table-column label="调度类型" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" >
+          <template #default="scope">
+            <span>{{scope.row.scheduleType}}: {{scope.row.scheduleConf}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="120" :show-overflow-tooltip="true" >
+          <template #default="scope">
+            <span>{{scope.row.glueType}}: {{scope.row.executorHandler}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="负责人" align="left" prop="author" min-width="120" :show-overflow-tooltip="true" />
+        <el-table-column label="状态" align="left" prop="triggerStatus" min-width="100">
+          <template #default="scope"><dict-tag :options="TriggerStatus" :value="scope.row.triggerStatus"/></template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
+          <template #default="scope">
+            <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
+            <el-button type="text" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
+     <pagination
+         v-show="total > 0"
+         :total="total"
+         v-model:page="queryParams.current"
+         v-model:limit="queryParams.size"
+         @pagination="getList"
+     />
+
+     <edit ref="editRef" @change="getList"/>
+   </div>
+</template>
+
+<script setup name="Jobinfo">
+import {jobinfoPage, jobinfoRemove} from "@/api/jobinfo";
+import {jobgroupPage} from "@/api/jobgroup";
+import Edit from "./components/edit"
+import TriggerStatus from "@/api/dict/TriggerStatus.json"
+
+const tableHeight = computed(() => window.innerHeight - 216);
+const { proxy } = getCurrentInstance();
+
+const appOptions = ref([]);
+const dataList = ref([]);
+const open = ref(false);
+const loading = ref(false);
+const total = ref(0);
+
+const queryParams = ref({
+  start: 0,
+  length: 10,
+  jobGroup: 1,
+  triggerStatus: -1,
+  jobDesc: '',
+  executorHandler: '',
+  author: '',
+});
+
+function init() {
+  getApps();
+}
+
+function getApps() {
+  jobgroupPage({start: 0,length: 10000}).then(res => {
+    appOptions.value = res.data;
+    if (appOptions.value && appOptions.value.length > 0) {
+      queryParams.value.jobGroup = appOptions.value[1].id;
+      getList();
+    }
+  });
+}
+
+
+/** 查询参数列表 */
+function getList() {
+  if (!queryParams.value.jobGroup) {
+    return;
+  }
+  loading.value = true;
+  jobinfoPage(queryParams.value).then(res => {
+    dataList.value = res.data;
+    // res.recordsFiltered
+    total.value = res.recordsTotal;
+  }).finally(() => {
+    loading.value = false;
+  });
+}
+
+/** 搜索按钮操作 */
+function handleQuery() {
+  queryParams.value.current = 0;
+  getList();
+}
+
+/** 重置按钮操作 */
+function resetQuery() {
+  proxy.resetForm("queryRef");
+  handleQuery();
+}
+
+function handleAdd() {
+  proxy.$refs["editRef"].handleEdit();
+}
+function handleUpdate(row) {
+  proxy.$refs["editRef"].handleEdit(row);
+}
+
+/** 删除按钮操作 */
+function handleDelete(row) {
+  proxy.$modal.confirm('是否确认删除:"' + row.jobDesc + '"？').then(() => {
+    jobinfoRemove({id: row.id}).then(res => {
+      getList();
+      proxy.$modal.msgSuccess("删除成功");
+    })
+  }).catch(() => {});
+}
+
+init();
 </script>
