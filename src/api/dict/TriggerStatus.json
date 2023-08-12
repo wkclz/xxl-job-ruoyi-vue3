@@ -5,13 +5,13 @@
     "elTagType": "info"
   },
   {
-    "value": 1,
+    "value": 0,
     "label": "停止",
-    "elTagType": "success"
+    "elTagType": "danger"
   },
   {
-    "value": 0,
+    "value": 1,
     "label": "启动",
-    "elTagType": "danger"
+    "elTagType": "success"
   }
 ]

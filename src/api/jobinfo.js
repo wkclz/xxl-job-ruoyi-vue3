@@ -54,3 +54,23 @@ export function jobinfoNextTriggerTime(data) {
     });
 }
 
+export function jobinfoStart(data) {
+    return request({
+        url: '/jobinfo/start',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+
+export function jobinfoStop(data) {
+    return request({
+        url: '/jobinfo/stop',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+
+
+

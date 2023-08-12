@@ -36,15 +36,17 @@
            <span>{{scope.row.scheduleType}}: {{scope.row.scheduleConf}}</span>
          </template>
        </el-table-column>
-       <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="120" :show-overflow-tooltip="true" >
+       <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" >
          <template #default="scope">
            <span>{{scope.row.glueType}}: {{scope.row.executorHandler}}</span>
          </template>
        </el-table-column>
        <el-table-column label="负责人" align="left" prop="author" min-width="120" :show-overflow-tooltip="true" />
 
-       <el-table-column label="状态" align="left" prop="triggerStatus" min-width="100" fixed='right'>
-         <template #default="scope"><dict-tag :options="TriggerStatus" :value="scope.row.triggerStatus"/></template>
+       <el-table-column label="状态" align="left" prop="triggerStatus" width="80" fixed='right'>
+         <template #default="scope">
+           <el-switch v-model="scope.row.triggerStatus" active-value="1" inactive-value="0" @click="changeTriggerStatus(scope.row)"/>
+         </template>
        </el-table-column>
 
        <el-table-column label="操作" align="center" fixed='right' width="268" class-name="small-padding fixed-width">
@@ -82,7 +84,7 @@
 </template>
 
 <script setup name="Jobinfo">
-import {jobinfoPage, jobinfoRemove} from "@/api/jobinfo";
+import {jobinfoPage, jobinfoRemove, jobinfoStart, jobinfoStop} from "@/api/jobinfo";
 import {jobgroupPage} from "@/api/jobgroup";
 import Edit from "./components/edit"
 import Exec from "./components/exec"
@@ -151,6 +153,25 @@ function resetQuery() {
   handleQuery();
 }
 
+function changeTriggerStatus(row) {
+  if (row.triggerStatus === '1') {
+    jobinfoStart({id: row.id}).then(res => {
+      // do nothing
+    }).catch(() => {
+      proxy.$modal.msgError("开启失败！");
+      row.triggerStatus = '0';
+    });
+  }
+  if (row.triggerStatus === '0') {
+    jobinfoStop({id: row.id}).then(res => {
+      // do nothing
+    }).catch(() => {
+      proxy.$modal.msgError("关闭失败！");
+      row.triggerStatus = '1';
+    });
+  }
+}
+
 
 function handleCommand(command, row) {
   switch (command) {
@@ -192,7 +213,6 @@ function handleReg(row) {
 }
 function handleNexttime(row) {
   proxy.$refs["nextTiggerTimeRef"].handleEdit(row);
-
 }
 
 /** 删除按钮操作 */
