@@ -1,10 +1,10 @@
 <template>
   <div class="app-container home">
     <el-row :gutter="20">
-      <el-col :sm="8" :lg="8">
+      <el-col :span="12">
         <welcome />
       </el-col>
-      <el-col :sm="16" :lg="16">
+      <el-col :span="12">
         <blockquote class="text-warning" style="font-size: 14px">
           使用 Ruoyi-Vue3 重新实现 xxl-job 的管理后台页面. 只包含 UI
         </blockquote>
