@@ -171,8 +171,6 @@ function getJobsOptions() {
 
 /** 查询参数列表 */
 function getList() {
-
-  console.log('getList, getList');
   loading.value = true;
 
   if (dateRange.value.length === 2) {
@@ -192,7 +190,6 @@ function getList() {
 
 /** 搜索按钮操作 */
 function handleQuery() {
-  console.log('getList--handleQuery');
   queryParams.value.start = 0;
   getList();
 }

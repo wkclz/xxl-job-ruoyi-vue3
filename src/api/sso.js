@@ -6,7 +6,15 @@ export function loginXxlJob(data) {
         url: '/login',
         method: 'post',
         data: tansParams(data),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
     });
 }
+
+export function logoutXxlJob() {
+    return request({
+        url: '/logout',
+        method: 'post',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+

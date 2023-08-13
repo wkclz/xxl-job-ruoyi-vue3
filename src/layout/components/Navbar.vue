@@ -6,7 +6,6 @@
 
     <div class="right-menu">
       <template v-if="appStore.device !== 'mobile'">
-        <app-select />
         <header-search id="header-search" class="right-menu-item" />
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
         <el-tooltip content="布局大小" effect="dark" placement="bottom">
@@ -22,9 +21,9 @@
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <router-link to="/personal/profile">
-                <el-dropdown-item>个人中心</el-dropdown-item>
-              </router-link>
+              <el-dropdown-item command="chpwd">
+                <span>修改密码</span>
+              </el-dropdown-item>
               <el-dropdown-item command="setLayout">
                 <span>布局设置</span>
               </el-dropdown-item>
@@ -36,6 +35,8 @@
         </el-dropdown>
       </div>
     </div>
+
+    <pwd ref="pwdRef"/>
   </div>
 </template>
 
@@ -44,7 +45,6 @@ import { ElMessageBox } from 'element-plus'
 import Breadcrumb from '@/components/Breadcrumb'
 import TopNav from '@/components/TopNav'
 import Hamburger from '@/components/Hamburger'
-import AppSelect from './AppSelect'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import HeaderSearch from '@/components/HeaderSearch'
@@ -52,10 +52,13 @@ import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
 import Avatar from '@/components/Avatar'
+import Pwd from '@/views/user/pwd'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
+
+const { proxy } = getCurrentInstance();
 
 function toggleSideBar() {
   appStore.toggleSideBar()
@@ -63,6 +66,9 @@ function toggleSideBar() {
 
 function handleCommand(command) {
   switch (command) {
+    case "chpwd":
+      chpwd();
+      break;
     case "setLayout":
       setLayout();
       break;
@@ -72,6 +78,10 @@ function handleCommand(command) {
     default:
       break;
   }
+}
+
+function chpwd() {
+  proxy.$refs["pwdRef"].init();
 }
 
 function logout() {

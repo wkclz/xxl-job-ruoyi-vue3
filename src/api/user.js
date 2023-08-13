@@ -38,3 +38,11 @@ export function userRemove(data) {
     });
 }
 
+export function userUpdatePwd(data) {
+    return request({
+        url: '/user/updatePwd',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}

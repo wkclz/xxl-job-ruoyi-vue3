@@ -1,8 +1,5 @@
-import { loginXxlJob } from '@/api/sso'
-import { getToken, setToken, removeToken, isLogin } from '@/utils/auth'
-import {ElMessage} from "element-plus";
-import { Base64 } from 'js-base64';
-import router from '@/router';
+import { loginXxlJob, logoutXxlJob } from '@/api/sso'
+import { getToken, removeToken } from '@/utils/auth'
 
 const useUserStore = defineStore('user', {
     state: () => ({
@@ -36,9 +33,8 @@ const useUserStore = defineStore('user', {
       },
       // 退出系统
       logOut() {
-        /*
         return new Promise((resolve, reject) => {
-          publicSsoLogout().then(() => {
+          logoutXxlJob().then(() => {
             resolve()
           }).catch(error => {
             reject(error)
@@ -47,7 +43,6 @@ const useUserStore = defineStore('user', {
             removeToken()
           });
         })
-        */
       }
     }
   })
