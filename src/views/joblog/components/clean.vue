@@ -56,7 +56,7 @@ function cancel() {
 function init(row) {
   reset();
   form.value = JSON.parse(JSON.stringify(row))
-  console.log('form.value', form.value);
+  form.value.type = 1;
   open.value = true;
 }
 

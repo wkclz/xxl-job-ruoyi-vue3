@@ -94,6 +94,7 @@ import TriggerStatus from "@/api/dict/TriggerStatus.json"
 
 const tableHeight = computed(() => window.innerHeight - 216);
 const { proxy } = getCurrentInstance();
+const router = useRouter();
 
 const appOptions = ref([]);
 const dataList = ref([]);
@@ -199,6 +200,7 @@ function handleExec(row) {
 }
 function handleLog(row) {
   console.log('handleLog');
+  router.push('/joblog?jobGroup='+row.jobGroup+'&jobId=' + row.id);
 }
 function handleUpdate(row) {
   proxy.$refs["editRef"].handleEdit(row);

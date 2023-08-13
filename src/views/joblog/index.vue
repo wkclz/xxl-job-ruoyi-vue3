@@ -52,13 +52,13 @@
         </el-table-column>
         <el-table-column label="执行结果" align="left" prop="handleMsg" min-width="200" :show-overflow-tooltip="true" />
         <el-table-column label="执行备注" align="left" prop="username" min-width="200" :show-overflow-tooltip="true" />
+        <!--
         <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
-            <!--
             <el-button type="text" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
-            -->
           </template>
         </el-table-column>
+        -->
       </el-table>
 
      <pagination
@@ -83,6 +83,7 @@ import TriggerResult from "@/api/dict/TriggerResult.json"
 
 import Clean from "./components/clean"
 import TriggerRemark from "./components/triggerRemark"
+import router from "@/router";
 
 const tableHeight = computed(() => window.innerHeight - 216);
 const { proxy } = getCurrentInstance();
@@ -103,7 +104,6 @@ const queryParams = ref({
   filterTime: '2023-08-12 00:00:00 - 2023-08-12 23:59:59'
 });
 
-
 function init() {
   const now = new Date();
   dateRange.value = [
@@ -112,7 +112,22 @@ function init() {
   ];
   appOptions.value.push({id: -1, title: '全部'})
   jobsOptions.value.push({id: 0, jobDesc: '全部'})
-  getList();
+
+  let jobGroup = router?.currentRoute?._value?.query?.jobGroup;
+  let jobId = router?.currentRoute?._value?.query?.jobId;
+
+  if (jobGroup && jobGroup > 0) {
+    queryParams.value.jobGroup = Number(jobGroup);
+    changeJobGroup(jobGroup);
+  }
+  if (jobId && jobId > 0) {
+    queryParams.value.jobId = Number(jobId);
+  }
+
+  // 非跳转场景，进入页面查询一次
+  if (!jobGroup && !jobId) {
+    handleQuery();
+  }
   getApps();
 }
 
@@ -127,9 +142,9 @@ function getApps() {
   });
 }
 
-function changeJobGroup(val) {
+function changeJobGroup(jobGroup) {
   handleQuery();
-  if (val === -1) {
+  if (jobGroup === -1) {
     return;
   }
   getJobsOptions();
@@ -156,6 +171,8 @@ function getJobsOptions() {
 
 /** 查询参数列表 */
 function getList() {
+
+  console.log('getList, getList');
   loading.value = true;
 
   if (dateRange.value.length === 2) {
@@ -175,6 +192,7 @@ function getList() {
 
 /** 搜索按钮操作 */
 function handleQuery() {
+  console.log('getList--handleQuery');
   queryParams.value.start = 0;
   getList();
 }
@@ -189,8 +207,6 @@ function handleClean() {
   const row = {};
   row.jobGroup = queryParams.value.jobGroup;
   row.jobId = queryParams.value.jobId;
-  console.log('appOptions.value', appOptions.value);
-  console.log('jobsOptions.value', jobsOptions.value);
   for (const t of appOptions.value) {
     if (t.id === row.jobGroup) {
       row.jobGroupName = t.title;
@@ -212,15 +228,6 @@ function handleRriggerRemark(row) {
   proxy.$refs["triggerRemarkRef"].init(row);
 }
 
-/** 删除按钮操作 */
-function handleDelete(row) {
-  proxy.$modal.confirm('是否确认删除:"' + row.username + '"？').then(() => {
-    userRemove({id: row.id}).then(res => {
-      getList();
-      proxy.$modal.msgSuccess("删除成功");
-    })
-  }).catch(() => {});
-}
 
 init();
 </script>
