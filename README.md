@@ -2,7 +2,7 @@
 
 ## 平台简介
 
-xxl-job 的管理端不太好用，使用 ruoyi-vue3 重新实现 xxl-job 的管理端 UI
+使用 Ruoyi-Vue3 重新实现 xxl-job 的管理后台页面. 只包含 UI
 
 ## 前端运行
 
