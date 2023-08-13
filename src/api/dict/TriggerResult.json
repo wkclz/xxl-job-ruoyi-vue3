@@ -1,0 +1,12 @@
+[
+  {
+    "value": 200,
+    "label": "成功",
+    "elTagType": "success"
+  },
+  {
+    "value": 500,
+    "label": "失败",
+    "elTagType": "danger"
+  }
+]

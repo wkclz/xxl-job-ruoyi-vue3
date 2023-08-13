@@ -1,0 +1,22 @@
+[
+  {
+    "value": -1,
+    "label": "全部",
+    "elTagType": "info"
+  },
+  {
+    "value": 1,
+    "label": "成功",
+    "elTagType": "success"
+  },
+  {
+    "value": 2,
+    "label": "失败",
+    "elTagType": "danger"
+  },
+  {
+    "value": 3,
+    "label": "进行中",
+    "elTagType": "primary"
+  }
+]

@@ -3,7 +3,7 @@
      <el-form :model="queryParams" ref="queryRef" :inline="true">
        <el-form-item label="执行器" prop="jobGroup">
          <el-select v-model="queryParams.jobGroup" placeholder="执行器" filterable style='width: 200px' @change="handleQuery">
-           <el-option v-for="item in appOptions" :key="item.id" :label="item.appname" :value="item.id"/>
+           <el-option v-for="item in appOptions" :key="item.id" :label="item.title" :value="item.id"/>
          </el-select>
        </el-form-item>
        <el-form-item label="状态" prop="triggerStatus">
@@ -97,7 +97,6 @@ const { proxy } = getCurrentInstance();
 
 const appOptions = ref([]);
 const dataList = ref([]);
-const open = ref(false);
 const loading = ref(false);
 const total = ref(0);
 
@@ -119,7 +118,7 @@ function getApps() {
   jobgroupPage({start: 0,length: 10000}).then(res => {
     appOptions.value = res.data;
     if (appOptions.value && appOptions.value.length > 0) {
-      queryParams.value.jobGroup = appOptions.value[1].id;
+      queryParams.value.jobGroup = appOptions.value[0].id;
       getList();
     }
   });

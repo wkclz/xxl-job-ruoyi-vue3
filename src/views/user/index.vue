@@ -53,7 +53,6 @@ const tableHeight = computed(() => window.innerHeight - 216);
 const { proxy } = getCurrentInstance();
 
 const dataList = ref([]);
-const open = ref(false);
 const loading = ref(false);
 const total = ref(0);
 
