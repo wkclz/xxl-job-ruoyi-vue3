@@ -22,9 +22,6 @@ const usePermissionStore = defineStore('permission', {
       this.addRoutes = routes
       this.routes = constantRoutes.concat(routes)
     },
-    addRouteBtns(route, btns) {
-      this.routeBtns[route] = btns
-    },
     setDefaultRoutes(routes) {
       this.defaultRoutes = constantRoutes.concat(routes)
     },

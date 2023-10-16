@@ -7,9 +7,11 @@
   >
     <template v-for="(item, index) in topMenus">
       <el-menu-item :style="{'--theme': theme}" :index="item.path" :key="index" v-if="index < visibleNumber"
-        ><svg-icon :icon-class="item.meta.icon" />
-        {{ item.meta.title }}</el-menu-item
-      >
+        ><svg-icon
+          v-if="item.meta && item.meta.icon && item.meta.icon !== '#'"
+          :icon-class="item.meta.icon"
+        />
+        {{ item.meta.title }}</el-menu-item>
     </template>
 
     <!-- 顶部菜单超出数量折叠 -->
@@ -21,8 +23,7 @@
           :key="index"
           v-if="index >= visibleNumber"
           ><svg-icon :icon-class="item.meta.icon" />
-          {{ item.meta.title }}</el-menu-item
-        >
+          {{ item.meta.title }}</el-menu-item>
       </template>
     </el-sub-menu>
   </el-menu>
@@ -98,7 +99,7 @@ const activeMenu = computed(() => {
     const tmpPath = path.substring(1, path.length);
     activePath = "/" + tmpPath.substring(0, tmpPath.indexOf("/"));
     if (!route.meta.link) {
-      appStore.toggleSideBarHide(false);
+        appStore.toggleSideBarHide(false);
     }
   } else if(!route.children) {
     activePath = path;
@@ -121,7 +122,13 @@ function handleSelect(key, keyPath) {
     window.open(key, "_blank");
   } else if (!route || !route.children) {
     // 没有子路由路径内部打开
-    router.push({ path: key });
+    const routeMenu = childrenMenus.value.find(item => item.path === key);
+    if (routeMenu && routeMenu.query) {
+      let query = JSON.parse(routeMenu.query);
+      router.push({ path: key, query: query });
+    } else {
+      router.push({ path: key });
+    }
     appStore.toggleSideBarHide(true);
   } else {
     // 显示左侧联动菜单
@@ -182,5 +189,23 @@ onMounted(() => {
   color: #999093 !important;
   padding: 0 5px !important;
   margin: 0 10px !important;
+}
+
+/* 背景色隐藏 */
+.topmenu-container.el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .topmenu-container.el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .topmenu-container.el-menu--horizontal>.el-submenu .el-submenu__title:hover {
+    background-color: #ffffff !important;
+}
+
+/* 图标右间距 */
+.topmenu-container .svg-icon {
+  margin-right: 4px;
+}
+
+/* topmenu more arrow */
+.topmenu-container .el-sub-menu .el-sub-menu__icon-arrow {
+  position: static;
+  vertical-align: middle;
+  margin-left: 8px;
+  margin-top: 0px;
 }
 </style>

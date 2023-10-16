@@ -11,7 +11,7 @@ import usePermissionStore from '@/store/modules/permission'
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/auth-redirect', '/bind', '/register'];
+const whiteList = ['/login', '/register'];
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
           })
         }).catch(err => {
           useUserStore().logOut().then(() => {
-            ElMessage.error('路由异常：' + err)
+            ElMessage.error(err)
             next({ path: '/' })
           })
         })

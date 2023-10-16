@@ -15,7 +15,7 @@
       <div class="avatar-container">
         <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
           <div class="avatar-wrapper" style="display: flex">
-            <avatar :src="userStore.avatar" />
+            <img :src="userStore.avatar" class="user-avatar" />
             <span style="margin: 6px 0 0 8px; font-size: 28px;">{{ userStore.name }}</span>
             <el-icon><caret-bottom /></el-icon>
           </div>
@@ -24,7 +24,7 @@
               <el-dropdown-item command="chpwd">
                 <span>修改密码</span>
               </el-dropdown-item>
-              <el-dropdown-item command="setLayout">
+              <el-dropdown-item command="setLayout" v-if="settingsStore.showSettings">
                 <span>布局设置</span>
               </el-dropdown-item>
               <el-dropdown-item divided command="logout">
@@ -171,6 +171,13 @@ function setLayout() {
       .avatar-wrapper {
         margin-top: 5px;
         position: relative;
+
+        .user-avatar {
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+        }
 
         i {
           cursor: pointer;

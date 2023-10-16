@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ElNotification , ElMessageBox, ElMessage, ElLoading } from 'element-plus'
-import { getToken, removeToken } from '@/utils/auth'
+import { removeToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import { tansParams, blobValidate } from '@/utils/ruoyi'
 import cache from '@/plugins/cache'
@@ -37,6 +37,12 @@ service.interceptors.request.use(config => {
       url: config.url,
       data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
       time: new Date().getTime()
+    }
+    const requestSize = Object.keys(JSON.stringify(requestObj)).length; // 请求数据大小
+    const limitSize = 5 * 1024 * 1024; // 限制存放数据5M
+    if (requestSize >= limitSize) {
+      console.warn(`[${config.url}]: ` + '请求数据大小超出允许的5M限制，无法进行防重复提交验证。')
+      return config;
     }
     const sessionObj = cache.session.getJSON('sessionObj')
     if (sessionObj === undefined || sessionObj === null || sessionObj === '') {
@@ -166,8 +172,8 @@ export function download(url, params, filename, config) {
     responseType: 'blob',
     ...config
   }).then(async (data) => {
-    const isLogin = await blobValidate(data);
-    if (isLogin) {
+    const isBlob = blobValidate(data);
+    if (isBlob) {
       const blob = new Blob([data])
       saveAs(blob, filename)
     } else {
