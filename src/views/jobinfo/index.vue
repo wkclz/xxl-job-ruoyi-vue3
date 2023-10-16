@@ -49,13 +49,13 @@
          </template>
        </el-table-column>
 
-       <el-table-column label="操作" align="center" fixed='right' width="268" class-name="small-padding fixed-width">
+       <el-table-column label="操作" align="center" fixed='right' width="288" class-name="small-padding fixed-width">
          <template #default="scope">
-           <el-button type="text" icon="VideoPlay" @click="handleExec(scope.row)">执行</el-button>
-           <el-button type="text" icon="Notebook" @click="handleLog(scope.row)">日志</el-button>
-           <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
+           <el-button link type="primary" icon="VideoPlay" @click="handleExec(scope.row)">执行</el-button>
+           <el-button link type="primary" icon="Notebook" @click="handleLog(scope.row)">日志</el-button>
+           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
            <el-dropdown @command="(command) => handleCommand(command, scope.row)" trigger="hover">
-             <el-button type="text" icon="el-icon-d-arrow-right">更多<el-icon><DArrowRight /></el-icon></el-button>
+             <el-button link type="primary" icon="el-icon-d-arrow-right">更多<el-icon><DArrowRight /></el-icon></el-button>
              <template #dropdown>
                <el-dropdown-item command="handleCopy" icon="DocumentCopy">复制</el-dropdown-item>
                <el-dropdown-item command="handleReg" icon="Promotion">注册节点</el-dropdown-item>

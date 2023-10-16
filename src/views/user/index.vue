@@ -25,8 +25,8 @@
         </el-table-column>
         <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
-            <el-button type="text" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button type="text" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
+            <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -44,7 +44,7 @@
         </el-table-column>
         <el-table-column label="调度备注" align="left" prop="triggerMsg" min-width="100" :show-overflow-tooltip="true" >
           <template #default="scope">
-            <el-button type="text" icon="View" @click="handleRriggerRemark(scope.row)">查看</el-button>
+            <el-button link type="primary" icon="View" @click="handleRriggerRemark(scope.row)">查看</el-button>
           </template>
         </el-table-column>
         <el-table-column label="执行时间" align="left" prop="handleTime" min-width="160">
@@ -55,7 +55,7 @@
         <!--
         <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
-            <el-button type="text" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
         -->
