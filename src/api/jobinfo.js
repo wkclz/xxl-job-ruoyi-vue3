@@ -26,6 +26,16 @@ export function jobinfoUpdte(data) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
     });
 }
+
+export function jobcodeSave(data) {
+    return request({
+        url: '/jobcode/save',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+
 export function jobinfoRemove(data) {
     return request({
         url: '/jobinfo/remove',

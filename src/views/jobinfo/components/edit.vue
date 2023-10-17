@@ -74,8 +74,95 @@
           <el-form-item label="失败重试次数" prop="executorFailRetryCount">
             <el-input v-model="form.executorFailRetryCount" type="number" placeholder="请输入 失败重试次数" />
           </el-form-item>
+
         </el-col>
       </el-row>
+
+<textarea id="GLUE_GROOVY" style="display:none;" >
+package com.xxl.job.service.handler;
+
+import com.xxl.job.core.context.XxlJobHelper;
+import com.xxl.job.core.handler.IJobHandler;
+
+public class DemoGlueJobHandler extends IJobHandler {
+
+	@Override
+	public void execute() throws Exception {
+		XxlJobHelper.log("XXL-JOB, Hello World.");
+	}
+
+}
+</textarea>
+<textarea id="GLUE_SHELL" style="display:none;" >
+#!/bin/bash
+echo "xxl-job: hello shell"
+
+echo "脚本位置：$0"
+echo "任务参数：$1"
+echo "分片序号 = $2"
+echo "分片总数 = $3"
+
+echo "Good bye!"
+exit 0
+</textarea>
+<textarea id="GLUE_PYTHON" style="display:none;" >
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+import time
+import sys
+
+print "xxl-job: hello python"
+
+print "脚本位置：", sys.argv[0]
+print "任务参数：", sys.argv[1]
+print "分片序号：", sys.argv[2]
+print "分片总数：", sys.argv[3]
+
+print "Good bye!"
+exit(0)
+</textarea>
+<textarea id="GLUE_PHP" style="display:none;" >
+&lt;?php
+
+    echo "xxl-job: hello php  \n";
+
+    echo "脚本位置：$argv[0]  \n";
+    echo "任务参数：$argv[1]  \n";
+    echo "分片序号 = $argv[2]  \n";
+    echo "分片总数 = $argv[3]  \n";
+
+    echo "Good bye!  \n";
+    exit(0);
+
+?>
+</textarea>
+<textarea id="GLUE_NODEJS" style="display:none;" >
+#!/usr/bin/env node
+console.log("xxl-job: hello nodejs")
+
+var arguments = process.argv
+
+console.log("脚本位置: " + arguments[1])
+console.log("任务参数: " + arguments[2])
+console.log("分片序号: " + arguments[3])
+console.log("分片总数: " + arguments[4])
+
+console.log("Good bye!")
+process.exit(0)
+</textarea>
+<textarea id="GLUE_POWERSHELL" style="display:none;" >
+Write-Host "xxl-job: hello powershell"
+
+Write-Host "脚本位置: " $MyInvocation.MyCommand.Definition
+Write-Host "任务参数: "
+	if ($args.Count -gt 2) { $args[0..($args.Count-3)] }
+Write-Host "分片序号: " $args[$args.Count-2]
+Write-Host "分片总数: " $args[$args.Count-1]
+
+Write-Host "Good bye!"
+exit 0
+</textarea>
+
     </el-form>
     <template #footer>
       <div class="dialog-footer">
@@ -101,10 +188,9 @@ const emit = defineEmits(['change']);
 const { proxy } = getCurrentInstance();
 const open = ref(false);
 const title = ref("");
-
 const appOptions = ref([]);
-
 const form = ref({});
+
 const rules = ref({
   jobGroup: [{ required: true, message: "执行器 不能为空", trigger: "blur" }],
   jobDesc: [{ required: true, message: "任务描述 不能为空", trigger: "blur" }],
@@ -189,6 +275,12 @@ function submitForm() {
       if (form.value.scheduleType === 'FIX_DELAY') {
         form.value.scheduleConf = form.value.schedule_conf_FIX_DELAY;
       }
+      if (!form.value.id && form.value.glueType !== 'BEAN') {
+        const glueSource = document.getElementById(form.value.glueType);
+        form.value.glueSource = glueSource.textContent;
+        form.value.glueRemark = 'GLUE代码初始化';
+      }
+
       if (form.value.id) {
         jobinfoUpdate(form.value).then(res => {
           proxy.$modal.msgSuccess('修改成功');

@@ -38,11 +38,13 @@
        </el-table-column>
        <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" >
          <template #default="scope">
-           <span>{{scope.row.glueType}}: {{scope.row.executorHandler}}</span>
+           <div>
+             <span v-if="scope.row.glueType !== 'BEAN'"><dict-tag :options="GlueType" :value="scope.row.glueType"/></span>
+             <span v-if="scope.row.glueType === 'BEAN'">{{scope.row.glueType}}: {{scope.row.executorHandler}}</span>
+           </div>
          </template>
        </el-table-column>
        <el-table-column label="负责人" align="left" prop="author" min-width="120" :show-overflow-tooltip="true" />
-
        <el-table-column label="状态" align="left" prop="triggerStatus" width="80" fixed='right'>
          <template #default="scope">
            <el-switch v-model="scope.row.triggerStatus" active-value="1" inactive-value="0" @click="changeTriggerStatus(scope.row)"/>
@@ -60,6 +62,7 @@
                <el-dropdown-item command="handleCopy" icon="DocumentCopy">复制</el-dropdown-item>
                <el-dropdown-item command="handleReg" icon="Promotion">注册节点</el-dropdown-item>
                <el-dropdown-item command="handleNexttime" icon="Clock">下次执行时间</el-dropdown-item>
+               <el-dropdown-item command="handleGlueIde" icon="Edit" v-if="scope.row.glueType !== 'BEAN'">GLUE IDE</el-dropdown-item>
                <el-dropdown-item command="handleDelete" icon="DeleteFilled">删除</el-dropdown-item>
              </template>
            </el-dropdown>
@@ -75,11 +78,11 @@
          @pagination="getList"
      />
 
-
      <edit ref="editRef" @change="getList"/>
      <exec ref="execRef"/>
      <reg ref="regRef"/>
      <next-tigger-time ref="nextTiggerTimeRef"/>
+     <glue-ide ref="glueIdeRef"/>
    </div>
 </template>
 
@@ -87,10 +90,13 @@
 import {jobinfoPage, jobinfoRemove, jobinfoStart, jobinfoStop} from "@/api/jobinfo";
 import {jobgroupPage} from "@/api/jobgroup";
 import Edit from "./components/edit"
+import GlueIde from "./components/glueIde.vue"
 import Exec from "./components/exec"
 import Reg from "./components/reg"
-import NextTiggerTime from "./components/nextTiggerTime.vue"
+import GlueType from "@/api/dict/GlueType.json"
 import TriggerStatus from "@/api/dict/TriggerStatus.json"
+import NextTiggerTime from "./components/nextTiggerTime.vue"
+
 
 const tableHeight = computed(() => window.innerHeight - 216);
 const { proxy } = getCurrentInstance();
@@ -184,6 +190,9 @@ function handleCommand(command, row) {
     case "handleNexttime":
       handleNexttime(row);
       break;
+    case "handleGlueIde":
+      handleGlueIde(row);
+      break;
     case "handleDelete":
       handleDelete(row);
       break;
@@ -197,6 +206,9 @@ function handleAdd() {
 }
 function handleExec(row) {
   proxy.$refs["execRef"].handleEdit(row);
+}
+function handleGlueIde(row) {
+  proxy.$refs["glueIdeRef"].handleEdit(row);
 }
 function handleLog(row) {
   console.log('handleLog');

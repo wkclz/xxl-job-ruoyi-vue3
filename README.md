@@ -29,7 +29,7 @@ yarn dev
 
 ## 部署
 
-### 如果部署
+### 如何部署
 
 1. 修改 env/.env.xxx 配置文件中的 VITE_APP_BASE_API 为自己的
 2. 添加/修改 env/.env.xxx 配置文件中的其他信息（按实际情况修改即可）
