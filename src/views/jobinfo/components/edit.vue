@@ -188,7 +188,7 @@ exit 0
 </template>
 
 <script setup name="JobinfoEdit">
-import {jobinfoAdd, jobinfoUpdte} from "@/api/jobinfo";
+import {jobinfoAdd, jobinfoUpdate} from "@/api/jobinfo";
 import {jobgroupPage} from "@/api/jobgroup";
 
 import Crontab from '@/components/Crontab'
@@ -310,6 +310,9 @@ function submitForm() {
         form.value.glueRemark = 'GLUE代码初始化';
       }
 
+      form.value.addTime = undefined;
+      form.value.updateTime = undefined;
+      form.value.glueUpdatetime = undefined;
       if (form.value.id) {
         jobinfoUpdate(form.value).then(res => {
           proxy.$modal.msgSuccess('修改成功');

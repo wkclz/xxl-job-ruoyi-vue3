@@ -18,7 +18,7 @@ export function jobinfoAdd(data) {
     });
 }
 
-export function jobinfoUpdte(data) {
+export function jobinfoUpdate(data) {
     return request({
         url: '/jobinfo/update',
         method: 'post',
