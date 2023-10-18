@@ -27,9 +27,18 @@
           <el-form-item prop="scheduleConf" style="display: none">
             <el-input v-model="form.scheduleConf"  />
           </el-form-item>
+
           <el-form-item label="Cron" prop="schedule_conf_CRON" v-if="form.scheduleType === 'CRON'">
-            <el-input v-model="form.schedule_conf_CRON" placeholder="请输入 Cron" />
+            <el-input v-model="form.schedule_conf_CRON" placeholder="请输入cron执行表达式">
+              <template #append>
+                <el-button type="primary" @click="handleShowCron">
+                  生成表达式
+                  <i class="el-icon-time el-icon--right"></i>
+                </el-button>
+              </template>
+            </el-input>
           </el-form-item>
+
           <el-form-item label="固定速度" prop="schedule_conf_FIX_RATE" v-if="form.scheduleType === 'FIX_RATE'">
             <el-input v-model="form.schedule_conf_FIX_RATE" type="number" placeholder="请输入 固定速度（Second）" />
           </el-form-item>
@@ -170,12 +179,19 @@ exit 0
         <el-button @click="cancel">取 消</el-button>
       </div>
     </template>
+
+    <el-dialog title="Cron表达式生成器" v-model="openCron" append-to-body destroy-on-close>
+      <crontab ref="crontabRef" @hide="openCron=false" @fill="crontabFill" :expression="expression"></crontab>
+    </el-dialog>
+
   </el-dialog>
 </template>
 
 <script setup name="JobinfoEdit">
 import {jobinfoAdd, jobinfoUpdte} from "@/api/jobinfo";
 import {jobgroupPage} from "@/api/jobgroup";
+
+import Crontab from '@/components/Crontab'
 
 import GlueType from "@/api/dict/GlueType.json"
 import ScheduleType from "@/api/dict/ScheduleType.json"
@@ -190,6 +206,9 @@ const open = ref(false);
 const title = ref("");
 const appOptions = ref([]);
 const form = ref({});
+
+const openCron = ref(false);
+const expression = ref("");
 
 const rules = ref({
   jobGroup: [{ required: true, message: "执行器 不能为空", trigger: "blur" }],
@@ -259,6 +278,16 @@ function getApps() {
   jobgroupPage({start: 0,length: 10000}).then(res => {
     appOptions.value = res.data;
   });
+}
+
+
+function handleShowCron() {
+  expression.value = form.value.schedule_conf_CRON;
+  openCron.value = true;
+}
+/** 确定后回传值 */
+function crontabFill(value) {
+  form.value.schedule_conf_CRON = value;
 }
 
 

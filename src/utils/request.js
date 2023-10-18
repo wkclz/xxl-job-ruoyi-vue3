@@ -141,7 +141,7 @@ service.interceptors.response.use(res => {
       // 本地代理调试情况下，302 到登录，将是 404 异常
       console.log('404 了')
       removeToken();
-      location.href = '/login';
+      location.href = '#/login';
       return Promise.reject(message);
     }
 
