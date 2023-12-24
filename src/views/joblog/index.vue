@@ -42,7 +42,7 @@
         <el-table-column label="调度结果" align="left" prop="triggerCode" min-width="100">
           <template #default="scope"><dict-tag :options="TriggerResult" :value="scope.row.triggerCode"/></template>
         </el-table-column>
-        <el-table-column label="调度备注" align="left" prop="triggerMsg" min-width="100" :show-overflow-tooltip="true" >
+        <el-table-column label="调度备注" align="left" prop="triggerMsg" min-width="100" show-overflow-tooltip>
           <template #default="scope">
             <el-button link type="primary" icon="View" @click="handleRriggerRemark(scope.row)">查看</el-button>
           </template>
@@ -50,8 +50,8 @@
         <el-table-column label="执行时间" align="left" prop="handleTime" min-width="160">
           <template #default="scope"><span>{{ parseTime(scope.row.handleTime) }}</span></template>
         </el-table-column>
-        <el-table-column label="执行结果" align="left" prop="handleMsg" min-width="200" :show-overflow-tooltip="true" />
-        <el-table-column label="执行备注" align="left" prop="username" min-width="200" :show-overflow-tooltip="true" />
+        <el-table-column label="执行结果" align="left" prop="handleMsg" min-width="200" show-overflow-tooltip/>
+        <el-table-column label="执行备注" align="left" prop="username" min-width="200" show-overflow-tooltip/>
         <!--
         <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
@@ -85,7 +85,7 @@ import Clean from "./components/clean"
 import TriggerRemark from "./components/triggerRemark"
 import router from "@/router";
 
-const tableHeight = computed(() => window.innerHeight - 216);
+const tableHeight = computed(() => window.innerHeight - 164);
 const { proxy } = getCurrentInstance();
 
 const appOptions = ref([]);

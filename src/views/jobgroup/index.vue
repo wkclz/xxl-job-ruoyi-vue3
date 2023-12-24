@@ -18,12 +18,12 @@
       </el-form>
       <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
         <el-table-column label="ID" align="center" prop="id" width="80"/>
-        <el-table-column label="AppName" align="left" prop="appname" min-width="200" :show-overflow-tooltip="true" />
-        <el-table-column label="名称" align="left" prop="title" min-width="120" :show-overflow-tooltip="true" />
+        <el-table-column label="AppName" align="left" prop="appname" min-width="200" show-overflow-tooltip/>
+        <el-table-column label="名称" align="left" prop="title" min-width="120" show-overflow-tooltip/>
         <el-table-column label="注册方式" align="left" prop="addressType" min-width="100">
           <template #default="scope"><dict-tag :options="AddressType" :value="scope.row.addressType"/></template>
         </el-table-column>
-        <el-table-column label="OnLine 机器地址" align="left" prop="registryList" min-width="200" :show-overflow-tooltip="true" >
+        <el-table-column label="OnLine 机器地址" align="left" prop="registryList" min-width="200" show-overflow-tooltip>
           <template #default="scope">
             <div>
               <el-tag v-for="item in scope.row.registryList">{{item}}</el-tag>
@@ -55,7 +55,7 @@ import {jobgroupPage, jobgroupRemove} from "@/api/jobgroup";
 import Edit from "./components/edit"
 import AddressType from "@/api/dict/AddressType.json"
 
-const tableHeight = computed(() => window.innerHeight - 216);
+const tableHeight = computed(() => window.innerHeight - 164);
 const { proxy } = getCurrentInstance();
 
 const dataList = ref([]);

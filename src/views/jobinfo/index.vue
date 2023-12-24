@@ -30,13 +30,13 @@
      </el-form>
      <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
        <el-table-column label="ID" align="center" prop="id" width="80"/>
-       <el-table-column label="任务描述" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" />
-       <el-table-column label="调度类型" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" >
+       <el-table-column label="任务描述" align="left" prop="jobDesc" min-width="200" show-overflow-tooltip/>
+       <el-table-column label="调度类型" align="left" prop="jobDesc" min-width="200" show-overflow-tooltip>
          <template #default="scope">
            <span>{{scope.row.scheduleType}}: {{scope.row.scheduleConf}}</span>
          </template>
        </el-table-column>
-       <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="200" :show-overflow-tooltip="true" >
+       <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="200" show-overflow-tooltip>
          <template #default="scope">
            <div>
              <span v-if="scope.row.glueType !== 'BEAN'"><dict-tag :options="GlueType" :value="scope.row.glueType"/></span>
@@ -44,7 +44,7 @@
            </div>
          </template>
        </el-table-column>
-       <el-table-column label="负责人" align="left" prop="author" min-width="120" :show-overflow-tooltip="true" />
+       <el-table-column label="负责人" align="left" prop="author" min-width="120" show-overflow-tooltip/>
        <el-table-column label="状态" align="left" prop="triggerStatus" width="80" fixed='right'>
          <template #default="scope">
            <el-switch v-model="scope.row.triggerStatus" active-value="1" inactive-value="0" @click="changeTriggerStatus(scope.row)"/>
@@ -98,7 +98,7 @@ import TriggerStatus from "@/api/dict/TriggerStatus.json"
 import NextTiggerTime from "./components/nextTiggerTime.vue"
 
 
-const tableHeight = computed(() => window.innerHeight - 216);
+const tableHeight = computed(() => window.innerHeight - 164);
 const { proxy } = getCurrentInstance();
 const router = useRouter();
 

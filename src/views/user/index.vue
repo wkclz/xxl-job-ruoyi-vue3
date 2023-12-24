@@ -19,7 +19,7 @@
       </el-form>
       <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
         <el-table-column label="ID" align="center" prop="id" width="80"/>
-        <el-table-column label="账号" align="left" prop="username" min-width="200" :show-overflow-tooltip="true" />
+        <el-table-column label="账号" align="left" prop="username" min-width="200" show-overflow-tooltip/>
         <el-table-column label="角色" align="left" prop="role" min-width="200">
           <template #default="scope"><dict-tag :options="Role" :value="scope.row.role"/></template>
         </el-table-column>
@@ -49,7 +49,7 @@ import Edit from "./components/edit"
 
 import Role from "@/api/dict/Role.json"
 
-const tableHeight = computed(() => window.innerHeight - 216);
+const tableHeight = computed(() => window.innerHeight - 164);
 const { proxy } = getCurrentInstance();
 
 const dataList = ref([]);
