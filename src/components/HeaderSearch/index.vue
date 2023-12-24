@@ -45,12 +45,17 @@ function close() {
 }
 function change(val) {
   const path = val.path;
+  const query = val.query;
   if (isHttp(path)) {
     // http(s):// 路径新窗口打开
     const pindex = path.indexOf("http");
     window.open(path.substr(pindex, path.length), "_blank");
   } else {
-    router.push(path)
+    if (query) {
+      router.push({ path: path, query: JSON.parse(query) });
+    } else {
+      router.push(path)
+    }
   }
 
   search.value = ''
@@ -97,6 +102,9 @@ function generateRoutes(routes, basePath = '', prefixTitle = []) {
         // special case: need to exclude parent router without redirect
         res.push(data)
       }
+    }
+    if (r.query) {
+      data.query = r.query
     }
 
     // recursive child routes

@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 
 import ElementPlus from 'element-plus'
-import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
+import 'element-plus/dist/index.css'
+import locale from 'element-plus/es/locale/lang/zh-cn'
 
 import '@/assets/styles/index.scss' // global css
 
@@ -9,7 +10,6 @@ import App from './App'
 import store from './store'
 import router from './router'
 import directive from './directive' // directive
-
 
 // 注册指令
 import plugins from './plugins' // plugins
@@ -29,6 +29,8 @@ import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, select
 import Pagination from '@/components/Pagination'
 // 自定义表格工具组件
 import RightToolbar from '@/components/RightToolbar'
+// 富文本组件
+import Editor from "@/components/Editor"
 // 文件上传组件
 import FileUpload from "@/components/FileUpload"
 // 图片上传组件
@@ -60,6 +62,7 @@ app.component('FileUpload', FileUpload)
 app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
+app.component('Editor', Editor)
 
 app.use(router)
 app.use(store)
