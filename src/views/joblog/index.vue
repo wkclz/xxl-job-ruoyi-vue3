@@ -33,27 +33,27 @@
          <el-button type="info" plain icon="Delete" @click="handleClean">清理</el-button>
        </el-form-item>
       </el-form>
-      <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
-        <el-table-column label="ID" align="center" prop="id" width="80"/>
-        <el-table-column label="任务ID" align="left" prop="jobId" min-width="160"/>
-        <el-table-column label="调度时间" align="left" prop="triggerTime" min-width="160">
+      <el-table v-loading="loading" :height="tableHeight" :data="dataList">
+        <el-table-column label="ID" prop="id" width="80"/>
+        <el-table-column label="任务ID" prop="jobId" min-width="160"/>
+        <el-table-column label="调度时间" prop="triggerTime" min-width="160">
           <template #default="scope"><span>{{ parseTime(scope.row.triggerTime) }}</span></template>
         </el-table-column>
-        <el-table-column label="调度结果" align="left" prop="triggerCode" min-width="100">
+        <el-table-column label="调度结果" prop="triggerCode" min-width="100">
           <template #default="scope"><dict-tag :options="TriggerResult" :value="scope.row.triggerCode"/></template>
         </el-table-column>
-        <el-table-column label="调度备注" align="left" prop="triggerMsg" min-width="100" show-overflow-tooltip>
+        <el-table-column label="调度备注" prop="triggerMsg" min-width="100">
           <template #default="scope">
             <el-button link type="primary" icon="View" @click="handleRriggerRemark(scope.row)">查看</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="执行时间" align="left" prop="handleTime" min-width="160">
+        <el-table-column label="执行时间" prop="handleTime" min-width="160">
           <template #default="scope"><span>{{ parseTime(scope.row.handleTime) }}</span></template>
         </el-table-column>
-        <el-table-column label="执行结果" align="left" prop="handleMsg" min-width="200" show-overflow-tooltip/>
-        <el-table-column label="执行备注" align="left" prop="username" min-width="200" show-overflow-tooltip/>
+        <el-table-column label="执行结果" prop="handleMsg" min-width="200"/>
+        <el-table-column label="执行备注" prop="username" min-width="200"/>
         <!--
-        <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
+        <el-table-column label="操作" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
             <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
           </template>

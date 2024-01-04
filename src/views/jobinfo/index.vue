@@ -28,15 +28,15 @@
          <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
        </el-form-item>
      </el-form>
-     <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
-       <el-table-column label="ID" align="center" prop="id" width="80"/>
-       <el-table-column label="任务描述" align="left" prop="jobDesc" min-width="200" show-overflow-tooltip/>
-       <el-table-column label="调度类型" align="left" prop="jobDesc" min-width="200" show-overflow-tooltip>
+     <el-table v-loading="loading" :height="tableHeight" :data="dataList">
+       <el-table-column label="ID" prop="id" width="80"/>
+       <el-table-column label="任务描述" prop="jobDesc" min-width="200"/>
+       <el-table-column label="调度类型" prop="jobDesc" min-width="200">
          <template #default="scope">
            <span>{{scope.row.scheduleType}}: {{scope.row.scheduleConf}}</span>
          </template>
        </el-table-column>
-       <el-table-column label="运行模式" align="left" prop="jobDesc" min-width="200" show-overflow-tooltip>
+       <el-table-column label="运行模式" prop="jobDesc" min-width="200">
          <template #default="scope">
            <div>
              <span v-if="scope.row.glueType !== 'BEAN'"><dict-tag :options="GlueType" :value="scope.row.glueType"/></span>
@@ -44,14 +44,14 @@
            </div>
          </template>
        </el-table-column>
-       <el-table-column label="负责人" align="left" prop="author" min-width="120" show-overflow-tooltip/>
-       <el-table-column label="状态" align="left" prop="triggerStatus" width="80" fixed='right'>
+       <el-table-column label="负责人" prop="author" min-width="120"/>
+       <el-table-column label="状态" prop="triggerStatus" width="80" fixed='right'>
          <template #default="scope">
            <el-switch v-model="scope.row.triggerStatus" active-value="1" inactive-value="0" @click="changeTriggerStatus(scope.row)"/>
          </template>
        </el-table-column>
 
-       <el-table-column label="操作" align="center" fixed='right' width="288" class-name="small-padding fixed-width">
+       <el-table-column label="操作" fixed='right' width="288" class-name="small-padding fixed-width">
          <template #default="scope">
            <el-button link type="primary" icon="VideoPlay" @click="handleExec(scope.row)">执行</el-button>
            <el-button link type="primary" icon="Notebook" @click="handleLog(scope.row)">日志</el-button>

@@ -42,6 +42,13 @@ import TreeSelect from '@/components/TreeSelect'
 // 字典标签组件
 import DictTag from '@/components/DictTag'
 
+// 全局默认属性设置
+import { ElTable } from 'element-plus';
+
+ElTable.props.border = {type: Boolean, default: true};
+ElTable.props.showOverflowTooltip = {type: Boolean, default: true};
+ElTable.TableColumn.props.align = {type: String, default: 'left'};
+
 const app = createApp(App)
 
 // 全局方法挂载

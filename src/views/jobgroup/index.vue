@@ -16,21 +16,21 @@
           <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
         </el-form-item>
       </el-form>
-      <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
-        <el-table-column label="ID" align="center" prop="id" width="80"/>
-        <el-table-column label="AppName" align="left" prop="appname" min-width="200" show-overflow-tooltip/>
-        <el-table-column label="名称" align="left" prop="title" min-width="120" show-overflow-tooltip/>
-        <el-table-column label="注册方式" align="left" prop="addressType" min-width="100">
+      <el-table v-loading="loading" :height="tableHeight" :data="dataList">
+        <el-table-column label="ID" prop="id" width="80"/>
+        <el-table-column label="AppName" prop="appname" min-width="200"/>
+        <el-table-column label="名称" prop="title" min-width="120"/>
+        <el-table-column label="注册方式" prop="addressType" min-width="100">
           <template #default="scope"><dict-tag :options="AddressType" :value="scope.row.addressType"/></template>
         </el-table-column>
-        <el-table-column label="OnLine 机器地址" align="left" prop="registryList" min-width="200" show-overflow-tooltip>
+        <el-table-column label="OnLine 机器地址" prop="registryList" min-width="200">
           <template #default="scope">
             <div>
               <el-tag v-for="item in scope.row.registryList">{{item}}</el-tag>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
+        <el-table-column label="操作" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
             <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>

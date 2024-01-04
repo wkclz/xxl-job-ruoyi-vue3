@@ -17,13 +17,13 @@
           <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
         </el-form-item>
       </el-form>
-      <el-table v-loading="loading" :height="tableHeight" :data="dataList" border>
-        <el-table-column label="ID" align="center" prop="id" width="80"/>
-        <el-table-column label="账号" align="left" prop="username" min-width="200" show-overflow-tooltip/>
-        <el-table-column label="角色" align="left" prop="role" min-width="200">
+      <el-table v-loading="loading" :height="tableHeight" :data="dataList">
+        <el-table-column label="ID" prop="id" width="80"/>
+        <el-table-column label="账号" prop="username" min-width="200"/>
+        <el-table-column label="角色" prop="role" min-width="200">
           <template #default="scope"><dict-tag :options="Role" :value="scope.row.role"/></template>
         </el-table-column>
-        <el-table-column label="操作" align="center" fixed='right' width="160" class-name="small-padding fixed-width">
+        <el-table-column label="操作" fixed='right' width="160" class-name="small-padding fixed-width">
           <template #default="scope">
             <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
