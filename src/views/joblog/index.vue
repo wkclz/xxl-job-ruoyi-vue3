@@ -53,7 +53,7 @@
         <el-table-column label="执行结果" prop="handleMsg" min-width="200"/>
         <el-table-column label="执行备注" prop="username" min-width="200"/>
         <!--
-        <el-table-column label="操作" fixed='right' width="160" class-name="small-padding fixed-width">
+        <el-table-column label="操作" fixed='right' width="160"?
           <template #default="scope">
             <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
           </template>
