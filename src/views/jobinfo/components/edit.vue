@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" v-model="open" width="1080px" append-to-body draggable :close-on-click-modal="false">
+  <el-dialog :title="title" v-model="open" width="1080px">
     <el-form ref="editRef" :model="form" :rules="rules" label-width="108px">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -180,7 +180,7 @@ exit 0
       </div>
     </template>
 
-    <el-dialog title="Cron表达式生成器" v-model="openCron" append-to-body destroy-on-close>
+    <el-dialog title="Cron表达式生成器" v-model="openCron" destroy-on-close>
       <crontab ref="crontabRef" @hide="openCron=false" @fill="crontabFill" :expression="expression"></crontab>
     </el-dialog>
 

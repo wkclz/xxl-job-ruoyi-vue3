@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" v-model="open" width="1080px" append-to-body draggable :close-on-click-modal="false">
+  <el-dialog :title="title" v-model="open" width="1080px">
     <el-form ref="editRef" :model="form" :rules="rules" label-width="108px">
       <el-form-item label="任务参数" prop="glueSource">
         <monaco-editor v-model="form.glueSource" language="java" placeholder="请编辑 GLUE 源码" height="320px"/>

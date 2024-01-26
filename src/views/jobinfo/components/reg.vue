@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" v-model="open" width="300px" append-to-body draggable :close-on-click-modal="false">
+  <el-dialog :title="title" v-model="open" width="300px">
     <ol>
       <li v-for="item in jobgroup?.registryList"><el-tag>{{item}}</el-tag></li>
     </ol>

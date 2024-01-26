@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" v-model="open" width="600px" append-to-body draggable :close-on-click-modal="false">
+  <el-dialog :title="title" v-model="open" width="600px">
     <el-form ref="editRef" :model="form" :rules="rules" label-width="120px">
 
       <el-form-item label="用户名" prop="username">

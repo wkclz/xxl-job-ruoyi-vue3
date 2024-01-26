@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" v-model="open" width="600px" append-to-body draggable :close-on-click-modal="false">
+  <el-dialog :title="title" v-model="open" width="600px">
     <div v-html="form.triggerMsg"></div>
     <template #footer>
       <div class="dialog-footer">
