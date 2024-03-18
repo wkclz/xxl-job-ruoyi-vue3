@@ -51,7 +51,7 @@
          </template>
        </el-table-column>
 
-       <el-table-column label="操作" fixed='right' width="288"?
+       <el-table-column label="操作" fixed='right' width="288">
          <template #default="scope">
            <el-button link type="primary" icon="VideoPlay" @click="handleExec(scope.row)">执行</el-button>
            <el-button link type="primary" icon="Notebook" @click="handleLog(scope.row)">日志</el-button>

@@ -43,9 +43,6 @@ import TreeSelect from '@/components/TreeSelect'
 import DictTag from '@/components/DictTag'
 
 // 全局默认属性设置
-import { ElTable } from 'element-plus';
-
-// 全局默认属性设置
 import { ElTable, ElDialog } from 'element-plus';
 
 ElTable.props.border = {type: Boolean, default: true};

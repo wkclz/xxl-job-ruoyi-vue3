@@ -30,7 +30,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed='right' width="160"?
+        <el-table-column label="操作" fixed='right' width="160">
           <template #default="scope">
             <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
             <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
