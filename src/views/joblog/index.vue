@@ -33,7 +33,7 @@
          <el-button type="info" plain icon="Delete" @click="handleClean">清理</el-button>
        </el-form-item>
       </el-form>
-      <el-table v-loading="loading" :height="tableHeight" :data="dataList">
+      <el-table v-loading="loading" :data="dataList">
         <el-table-column label="ID" prop="id" width="80"/>
         <el-table-column label="任务ID" prop="jobId" min-width="160"/>
         <el-table-column label="调度时间" prop="triggerTime" min-width="160">
@@ -85,7 +85,6 @@ import Clean from "./components/clean"
 import TriggerRemark from "./components/triggerRemark"
 import router from "@/router";
 
-const tableHeight = computed(() => window.innerHeight - 164);
 const { proxy } = getCurrentInstance();
 
 const appOptions = ref([]);

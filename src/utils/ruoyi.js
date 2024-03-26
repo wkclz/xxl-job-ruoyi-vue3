@@ -224,7 +224,14 @@ export function handleTree(data, id, parentId, children, disableChrilred) {
 */
 export function tansParams(params) {
   let result = ''
-  for (const propName of Object.keys(params)) {
+  if (!params) {
+    return params;
+  }
+  const keys = Object.keys(params);
+  if (!keys || keys.length === 0) {
+    return result;
+  }
+  for (const propName of keys) {
     const value = params[propName];
     var part = encodeURIComponent(propName) + "=";
     if (value !== null && value !== "" && typeof (value) !== "undefined") {

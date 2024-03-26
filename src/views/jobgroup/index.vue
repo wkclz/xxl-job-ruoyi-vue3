@@ -16,7 +16,7 @@
           <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
         </el-form-item>
       </el-form>
-      <el-table v-loading="loading" :height="tableHeight" :data="dataList">
+      <el-table v-loading="loading" :data="dataList">
         <el-table-column label="ID" prop="id" width="80"/>
         <el-table-column label="AppName" prop="appname" min-width="200"/>
         <el-table-column label="名称" prop="title" min-width="120"/>
@@ -55,7 +55,6 @@ import {jobgroupPage, jobgroupRemove} from "@/api/jobgroup";
 import Edit from "./components/edit"
 import AddressType from "@/api/dict/AddressType.json"
 
-const tableHeight = computed(() => window.innerHeight - 164);
 const { proxy } = getCurrentInstance();
 
 const dataList = ref([]);

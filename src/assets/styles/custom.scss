@@ -56,6 +56,11 @@
   margin-bottom: 16px !important;
 }
 
+// 默认 table 高度：可视高度减固定差值
+.el-table {
+  height: calc(100vh - 163px);
+}
+
 // 修复 table 内 cell 打开图片被 row 覆盖问题
 .el-table .el-table__cell {
   z-index: auto !important;

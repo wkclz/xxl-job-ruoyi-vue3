@@ -9,7 +9,7 @@
       :show-file-list="false"
       :headers="headers"
       class="editor-img-uploader"
-      v-if="type == 'url'"
+      v-if="type === 'url'"
     >
       <i ref="uploadRef" class="editor-img-uploader"></i>
     </el-upload>
@@ -68,6 +68,10 @@ const props = defineProps({
   type: {
     type: String,
     default: "url",
+  },
+  placeholder: {
+    type: String,
+    default: "请输入内容",
   }
 });
 
@@ -90,7 +94,7 @@ const options = ref({
       ["link", "image", "video"]                      // 链接、图片、视频
     ],
   },
-  placeholder: "请输入内容",
+  placeholder: props.placeholder,
   readOnly: props.readOnly
 });
 
@@ -114,7 +118,7 @@ watch(() => props.modelValue, (v) => {
 
 // 如果设置了上传地址则自定义图片上传事件
 onMounted(() => {
-  if (props.type == 'url') {
+  if (props.type === 'url') {
     let quill = quillEditorRef.value.getQuill();
     let toolbar = quill.getModule("toolbar");
     toolbar.addHandler("image", (value) => {
@@ -150,7 +154,7 @@ function handleBeforeUpload(file) {
 // 上传成功处理
 function handleUploadSuccess(res, file) {
   // 如果上传成功
-  if (res.code == 200) {
+  if (res.code === 200) {
     // 获取富文本实例
     let quill = toRaw(quillEditorRef.value).getQuill();
     // 获取光标位置

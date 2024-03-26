@@ -28,7 +28,7 @@
          <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
        </el-form-item>
      </el-form>
-     <el-table v-loading="loading" :height="tableHeight" :data="dataList">
+     <el-table v-loading="loading" :data="dataList">
        <el-table-column label="ID" prop="id" width="80"/>
        <el-table-column label="任务描述" prop="jobDesc" min-width="200"/>
        <el-table-column label="调度类型" prop="jobDesc" min-width="200">
@@ -98,7 +98,6 @@ import TriggerStatus from "@/api/dict/TriggerStatus.json"
 import NextTiggerTime from "./components/nextTiggerTime.vue"
 
 
-const tableHeight = computed(() => window.innerHeight - 164);
 const { proxy } = getCurrentInstance();
 const router = useRouter();
 

@@ -4,7 +4,7 @@
     <template #content>
       <span v-html="content"></span>
     </template>
-    <el-icon><question-filled /></el-icon>
+    <el-icon class="tips-icon"><question-filled /></el-icon>
   </el-tooltip>
 </template>
 <script setup>
@@ -19,3 +19,10 @@ const props = defineProps({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.tips-icon {
+  margin-left: 2px;
+  padding-top: 16px;
+}
+</style>
