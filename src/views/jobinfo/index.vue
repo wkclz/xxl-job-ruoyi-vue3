@@ -90,12 +90,12 @@
 import {jobinfoPage, jobinfoRemove, jobinfoStart, jobinfoStop} from "@/api/jobinfo";
 import {jobgroupPage} from "@/api/jobgroup";
 import Edit from "./components/edit"
-import GlueIde from "./components/glueIde.vue"
+import GlueIde from "./components/glueIde"
 import Exec from "./components/exec"
 import Reg from "./components/reg"
 import GlueType from "@/api/dict/GlueType.json"
 import TriggerStatus from "@/api/dict/TriggerStatus.json"
-import NextTiggerTime from "./components/nextTiggerTime.vue"
+import NextTiggerTime from "./components/nextTiggerTime"
 
 
 const { proxy } = getCurrentInstance();

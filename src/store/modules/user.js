@@ -1,5 +1,6 @@
 import { loginXxlJob, logoutXxlJob } from '@/api/sso'
 import { getToken, removeToken } from '@/utils/auth'
+import defAva from '@/assets/images/profile.jpg'
 
 const useUserStore = defineStore('user', {
     state: () => ({
@@ -28,6 +29,7 @@ const useUserStore = defineStore('user', {
         return new Promise((resolve, reject) => {
           const username = getToken();
           this.name = username;
+          this.avatar = defAva;
           resolve(username)
         })
       },

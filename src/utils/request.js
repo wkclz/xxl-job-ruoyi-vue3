@@ -6,7 +6,6 @@ import { tansParams, blobValidate } from '@/utils/ruoyi'
 import cache from '@/plugins/cache'
 import { saveAs } from 'file-saver'
 import useUserStore from '@/store/modules/user'
-import router from "@/router";
 
 let downloadLoadingInstance;
 // 是否显示重新登录
@@ -70,9 +69,17 @@ service.interceptors.request.use(config => {
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-  const status = res.status || 200;
+  // 若已经不是登录状态，收到的 response 是 302 之后的页面，并带有 /toLogin
+  const responseURL = res?.request?.responseURL
+  if (responseURL && responseURL.indexOf('/toLogin') > -1) {
+    useUserStore().logOut().then(() => {
+      location.href = '/';
+    })
+    return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+  }
 
-  // xxl-job 是后端指令跳转登录，此处要转换成前端
+  const status = res.status || 200;
+  // xxl-job 是后端指令跳转登录，此处要转换成前端【真实情况下这里收不到 302，被强制跳转了】
   if (status === 302) {
     removeToken();
     location.href = '/';
@@ -89,33 +96,6 @@ service.interceptors.response.use(res => {
   // 二进制数据则直接返回
   if(res.request.responseType ===  'blob' || res.request.responseType ===  'arraybuffer'){
     return res.data
-  }
-
-  if (code === 10001 || code === 10002 || code === 10005 || code === 10006 || code === 10007) {
-    const path = router?.currentRoute?._value?.path;
-    if (path === '/' || path === '/login') {
-      useUserStore().logOut().then(() => {
-        location.href = '/';
-      })
-    } else {
-      if (!isRelogin.show) {
-        isRelogin.show = true;
-        ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
-              confirmButtonText: '重新登录',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }
-        ).then(() => {
-          isRelogin.show = false;
-          useUserStore().logOut().then(() => {
-            location.href = '/';
-          })
-        }).catch(() => {
-          isRelogin.show = false;
-        });
-      }
-    }
-    return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
   }
   if (code === 500) {
     ElMessage({
@@ -141,7 +121,7 @@ service.interceptors.response.use(res => {
       // 本地代理调试情况下，302 到登录，将是 404 异常
       console.log('404 了')
       removeToken();
-      location.href = '#/login';
+      location.href = '/';
       return Promise.reject(message);
     }
 

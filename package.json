@@ -22,7 +22,7 @@
     "@vueuse/core": "10.6.1",
     "axios": "0.27.2",
     "echarts": "5.4.3",
-    "element-plus": "2.4.4",
+    "element-plus": "2.6.2",
     "file-saver": "2.0.5",
     "fuse.js": "6.6.2",
     "jsencrypt": "3.3.2",

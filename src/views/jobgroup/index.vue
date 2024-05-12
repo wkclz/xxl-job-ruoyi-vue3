@@ -1,6 +1,6 @@
 <template>
    <div class="app-container">
-     <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="68px">
+     <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="80px">
        <el-form-item label="AppName" prop="appname">
          <el-input v-model="queryParams.appname" placeholder="AppName" clearable style="width: 160px" @keyup.enter="handleQuery"/>
        </el-form-item>

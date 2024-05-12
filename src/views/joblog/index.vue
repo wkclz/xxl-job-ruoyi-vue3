@@ -12,7 +12,7 @@
          </el-select>
        </el-form-item>
        <el-form-item label="状态" prop="logStatus">
-         <el-select v-model="queryParams.logStatus" placeholder="状态" filterable style='width: 120px' @change="handleQuery">
+         <el-select v-model="queryParams.logStatus" placeholder="状态" filterable style='width: 100px' @change="handleQuery">
            <el-option v-for="item in LogStatus" :key="item.value" :label="item.label" :value="item.value"/>
          </el-select>
        </el-form-item>
@@ -83,9 +83,9 @@ import TriggerResult from "@/api/dict/TriggerResult.json"
 
 import Clean from "./components/clean"
 import TriggerRemark from "./components/triggerRemark"
-import router from "@/router";
 
 const { proxy } = getCurrentInstance();
+const route = useRoute();
 
 const appOptions = ref([]);
 const jobsOptions = ref([]);
@@ -112,8 +112,9 @@ function init() {
   appOptions.value.push({id: -1, title: '全部'})
   jobsOptions.value.push({id: 0, jobDesc: '全部'})
 
-  let jobGroup = router?.currentRoute?._value?.query?.jobGroup;
-  let jobId = router?.currentRoute?._value?.query?.jobId;
+  const {query} = route;
+  let jobGroup = query?.jobGroup;
+  let jobId = query?.jobId;
 
   if (jobGroup && jobGroup > 0) {
     queryParams.value.jobGroup = Number(jobGroup);
