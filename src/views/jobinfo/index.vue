@@ -47,17 +47,17 @@
        <el-table-column label="负责人" prop="author" min-width="120"/>
        <el-table-column label="状态" prop="triggerStatus" width="80" fixed='right'>
          <template #default="scope">
-           <el-switch v-model="scope.row.triggerStatus" active-value="1" inactive-value="0" @click="changeTriggerStatus(scope.row)"/>
+           <el-switch v-model="scope.row.triggerStatus" active-value="1" inactive-value="0" size="small" @click="changeTriggerStatus(scope.row)"/>
          </template>
        </el-table-column>
 
-       <el-table-column label="操作" fixed='right' width="288">
+       <el-table-column label="操作" fixed='right' width="270">
          <template #default="scope">
            <el-button link type="primary" icon="VideoPlay" @click="handleExec(scope.row)">执行</el-button>
            <el-button link type="primary" icon="Notebook" @click="handleLog(scope.row)">日志</el-button>
            <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
            <el-dropdown @command="(command) => handleCommand(command, scope.row)" trigger="hover">
-             <el-button link type="primary" icon="el-icon-d-arrow-right">更多<el-icon><DArrowRight /></el-icon></el-button>
+             <el-button link type="primary" style="padding-left: 12px;">更多<el-icon><DArrowRight /></el-icon></el-button>
              <template #dropdown>
                <el-dropdown-item command="handleCopy" icon="DocumentCopy">复制</el-dropdown-item>
                <el-dropdown-item command="handleReg" icon="Promotion">注册节点</el-dropdown-item>
@@ -239,3 +239,9 @@ function handleDelete(row) {
 
 init();
 </script>
+
+<style lang="scss" scoped>
+.el-dropdown {
+  vertical-align: middle;
+}
+</style>
