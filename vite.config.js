@@ -39,7 +39,7 @@ export default defineConfig(({ mode, command }) => {
       proxy: {
         // https://cn.vitejs.dev/config/#server-proxy
         '/dev-api': {
-          target: 'http://xxl-job.example.com/xxl-job-admin',
+          target: 'http://kk.wkclz.com:30080/xxl-job-admin',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/dev-api/, '')
         },

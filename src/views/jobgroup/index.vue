@@ -21,19 +21,19 @@
         <el-table-column label="AppName" prop="appname" min-width="200"/>
         <el-table-column label="名称" prop="title" min-width="120"/>
         <el-table-column label="注册方式" prop="addressType" min-width="100">
-          <template #default="scope"><dict-tag :options="AddressType" :value="scope.row.addressType"/></template>
+          <template #default="{row}"><dict-tag :options="AddressType" :value="row.addressType"/></template>
         </el-table-column>
         <el-table-column label="OnLine 机器地址" prop="registryList" min-width="200">
-          <template #default="scope">
+          <template #default="{row}">
             <div>
-              <el-tag v-for="item in scope.row.registryList">{{item}}</el-tag>
+              <el-tag v-for="item in row.registryList">{{item}}</el-tag>
             </div>
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed='right' width="160">
-          <template #default="scope">
-            <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+          <template #default="{row}">
+            <el-button link type="primary" icon="Edit" @click="handleUpdate(row)">编辑</el-button>
+            <el-button link type="danger" icon="Delete" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

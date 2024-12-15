@@ -32,37 +32,37 @@
        <el-table-column label="ID" prop="id" width="80"/>
        <el-table-column label="任务描述" prop="jobDesc" min-width="200"/>
        <el-table-column label="调度类型" prop="jobDesc" min-width="200">
-         <template #default="scope">
-           <span>{{scope.row.scheduleType}}: {{scope.row.scheduleConf}}</span>
+         <template #default="{row}">
+           <span>{{row.scheduleType}}: {{row.scheduleConf}}</span>
          </template>
        </el-table-column>
        <el-table-column label="运行模式" prop="jobDesc" min-width="200">
-         <template #default="scope">
+         <template #default="{row}">
            <div>
-             <span v-if="scope.row.glueType !== 'BEAN'"><dict-tag :options="GlueType" :value="scope.row.glueType"/></span>
-             <span v-if="scope.row.glueType === 'BEAN'">{{scope.row.glueType}}: {{scope.row.executorHandler}}</span>
+             <span v-if="row.glueType !== 'BEAN'"><dict-tag :options="GlueType" :value="row.glueType"/></span>
+             <span v-if="row.glueType === 'BEAN'">{{row.glueType}}: {{row.executorHandler}}</span>
            </div>
          </template>
        </el-table-column>
        <el-table-column label="负责人" prop="author" min-width="120"/>
        <el-table-column label="状态" prop="triggerStatus" width="80" fixed='right'>
-         <template #default="scope">
-           <el-switch v-model="scope.row.triggerStatus" active-value="1" inactive-value="0" size="small" @click="changeTriggerStatus(scope.row)"/>
+         <template #default="{row}">
+           <el-switch v-model="row.triggerStatus" active-value="1" inactive-value="0" size="small" @click="changeTriggerStatus(row)"/>
          </template>
        </el-table-column>
 
        <el-table-column label="操作" fixed='right' width="270">
-         <template #default="scope">
-           <el-button link type="primary" icon="VideoPlay" @click="handleExec(scope.row)">执行</el-button>
-           <el-button link type="primary" icon="Notebook" @click="handleLog(scope.row)">日志</el-button>
-           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
-           <el-dropdown @command="(command) => handleCommand(command, scope.row)" trigger="hover">
+         <template #default="{row}">
+           <el-button link type="primary" icon="VideoPlay" @click="handleExec(row)">执行</el-button>
+           <el-button link type="primary" icon="Notebook" @click="handleLog(row)">日志</el-button>
+           <el-button link type="primary" icon="Edit" @click="handleUpdate(row)">编辑</el-button>
+           <el-dropdown @command="(command) => handleCommand(command, row)" trigger="hover">
              <el-button link type="primary" style="padding-left: 12px;">更多<el-icon><DArrowRight /></el-icon></el-button>
              <template #dropdown>
                <el-dropdown-item command="handleCopy" icon="DocumentCopy">复制</el-dropdown-item>
                <el-dropdown-item command="handleReg" icon="Promotion">注册节点</el-dropdown-item>
                <el-dropdown-item command="handleNexttime" icon="Clock">下次执行时间</el-dropdown-item>
-               <el-dropdown-item command="handleGlueIde" icon="Edit" v-if="scope.row.glueType !== 'BEAN'">GLUE IDE</el-dropdown-item>
+               <el-dropdown-item command="handleGlueIde" icon="Edit" v-if="row.glueType !== 'BEAN'">GLUE IDE</el-dropdown-item>
                <el-dropdown-item command="handleDelete" icon="DeleteFilled">删除</el-dropdown-item>
              </template>
            </el-dropdown>
