@@ -37,25 +37,25 @@
         <el-table-column label="ID" prop="id" width="80"/>
         <el-table-column label="任务ID" prop="jobId" min-width="160"/>
         <el-table-column label="调度时间" prop="triggerTime" min-width="160">
-          <template #default="scope"><span>{{ parseTime(scope.row.triggerTime) }}</span></template>
+          <template #default="{row}"><span>{{ parseTime(row.triggerTime) }}</span></template>
         </el-table-column>
         <el-table-column label="调度结果" prop="triggerCode" min-width="100">
-          <template #default="scope"><dict-tag :options="TriggerResult" :value="scope.row.triggerCode"/></template>
+          <template #default="{row}"><dict-tag :options="TriggerResult" :value="row.triggerCode"/></template>
         </el-table-column>
         <el-table-column label="调度备注" prop="triggerMsg" min-width="100">
-          <template #default="scope">
-            <el-button link type="primary" icon="View" @click="handleRriggerRemark(scope.row)">查看</el-button>
+          <template #default="{row}">
+            <el-button link type="primary" icon="View" @click="handleRriggerRemark(row)">查看</el-button>
           </template>
         </el-table-column>
         <el-table-column label="执行时间" prop="handleTime" min-width="160">
-          <template #default="scope"><span>{{ parseTime(scope.row.handleTime) }}</span></template>
+          <template #default="{row}"><span>{{ parseTime(row.handleTime) }}</span></template>
         </el-table-column>
         <el-table-column label="执行结果" prop="handleMsg" min-width="200"/>
         <el-table-column label="执行备注" prop="username" min-width="200"/>
         <!--
         <el-table-column label="操作" fixed='right' width="160">
-          <template #default="scope">
-            <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+          <template #default="{row}">
+            <el-button link type="danger" icon="Delete" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
         -->

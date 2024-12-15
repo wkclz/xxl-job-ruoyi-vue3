@@ -21,12 +21,12 @@
         <el-table-column label="ID" prop="id" width="80"/>
         <el-table-column label="账号" prop="username" min-width="200"/>
         <el-table-column label="角色" prop="role" min-width="200">
-          <template #default="scope"><dict-tag :options="Role" :value="scope.row.role"/></template>
+          <template #default="{row}"><dict-tag :options="Role" :value="row.role"/></template>
         </el-table-column>
         <el-table-column label="操作" fixed='right' width="160">
-          <template #default="scope">
-            <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">编辑</el-button>
-            <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+          <template #default="{row}">
+            <el-button link type="primary" icon="Edit" @click="handleUpdate(row)">编辑</el-button>
+            <el-button link type="danger" icon="Delete" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
