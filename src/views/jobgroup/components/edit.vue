@@ -11,7 +11,7 @@
 
       <el-form-item label="注册方式" prop="addressType">
         <el-radio-group v-model="form.addressType">
-          <el-radio v-for="item in AddressType" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+          <el-radio v-for="item in AddressType" :key="item.value" :value="item.value">{{ item.label }}</el-radio>
         </el-radio-group>
       </el-form-item>
 
