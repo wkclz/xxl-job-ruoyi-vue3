@@ -121,7 +121,12 @@ function init() {
 }
 
 function getApps() {
-  jobgroupPage({start: 0,length: 10000}).then(res => {
+  jobgroupPage({
+    start: 0,
+    length: 10000,
+    appname: '',
+    title: ''
+  }).then(res => {
     appOptions.value = res.data;
     if (appOptions.value && appOptions.value.length > 0) {
       queryParams.value.jobGroup = appOptions.value[0].id;

@@ -132,7 +132,12 @@ function init() {
 }
 
 function getApps() {
-  jobgroupPage({start: 0,length: 10000}).then(res => {
+  jobgroupPage({
+    start: 0,
+    length: 10000,
+    appname: '',
+    title: ''
+  }).then(res => {
     const data = res.data;
     if (data && data.length > 0) {
         for (const a of data) {
