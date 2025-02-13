@@ -1,0 +1,81 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xxl-job-vue3
+  # namespace: prod
+  labels:
+    app: xxl-job-vue3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xxl-job-vue3
+  # 发布策略-平滑发布
+  strategy:
+    # type: Recreate
+    type: RollingUpdate # 资源不足，不能用滚动方式
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: xxl-job-vue3
+    spec:
+      imagePullSecrets:
+        # 阿里云 Secrets
+        - name: ${your_secrets}
+      containers:
+        - name: xxl-job-vue3
+          # 镜像， flow 会替换此变量
+          image: ${your_image}
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xxl-job-vue3-svc
+  # namespace: prod
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http-80
+  selector:
+    app: xxl-job-vue3
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: xxl-job-vue3-ingress
+  # namespace: prod
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: xxl-job-vue3.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: xxl-job-vue3-svc
+                port:
+                  number: 80
+    - host: xxl-job-vue3.example.com
+      http:
+        paths:
+          - path: /xxl-job-admin
+            pathType: Prefix
+            backend:
+              service:
+                name: xxl-job-admin-svc
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - xxl-job-vue3.example.com
+      secretName: xxl-job-vue3.example.com

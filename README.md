@@ -20,10 +20,9 @@ yarn install
 
 # 启动服务
 yarn dev
-
-# 构建测试环境 yarn build:uat
-# 构建生产环境 yarn build:prod
 # 前端访问地址 http://localhost:80
+
+# 构建 yarn build
 ```
 
 
@@ -39,7 +38,7 @@ yarn dev
 
 1. 前端开发环境使用了 proxy，无跨域问题
 2. 此项目为纯前端，不修改 xxl-job 后端的任何代码，故需要在前端和后端的中间解决跨域问题，nginx/httpd/Ingress均可
-3. 自己总结的跨域配置（nginx）: http://doc.wkclz.com/devops/component/nginx.html
-4. Ingress 怎样定义 nginx 片断: http://doc.wkclz.com/devops/k8s/07_ingress.html
+3. 自己总结的跨域配置（nginx）: http://doc.wkclz.com/devops/comp_app/nginx.html
+4. Ingress 怎样定义 nginx 片断: http://doc.wkclz.com/devops/k8s_guide/05_ingress.html
 5. 注意上面文档的 Allow-Origin 问题，必需配置为原请求地址，不能用 *， 否则不能接收 cookie
 6. 跨域基础知识可自行百度，推荐阮一峰大佬的博文：https://www.ruanyifeng.com/blog/2016/04/cors.html
