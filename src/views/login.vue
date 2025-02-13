@@ -41,7 +41,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2023 Shrimp Workstudio All Rights Reserved.</span>
+      <span>Copyright © 2025 Shrimp Workstudio All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -114,7 +114,7 @@ console.log('心灵的付出没得到回音便会是孤单，记忆滞后太久�
   justify-content: right;
   align-items: center;
   height: 100%;
-  background-image: url("https://static.wkclz.com/images/pl.jpeg");
+  background-image: url('/public/background.jpeg');
   background-size: cover;
   padding-right: 108px;
 }
