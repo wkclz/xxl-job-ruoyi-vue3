@@ -59,7 +59,7 @@ const queryParams = ref({
   start: 0,
   length: 10,
   role: -1,
-  username: undefined,
+  username: '',
 });
 
 
