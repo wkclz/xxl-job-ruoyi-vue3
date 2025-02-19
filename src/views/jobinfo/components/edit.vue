@@ -275,7 +275,12 @@ function initScheduleConf() {
 }
 
 function getApps() {
-  jobgroupPage({start: 0,length: 10000}).then(res => {
+  jobgroupPage({
+    start: 0,
+    length: 10000,
+    appname: '',
+    title: ''
+  }).then(res => {
     appOptions.value = res.data;
   });
 }
