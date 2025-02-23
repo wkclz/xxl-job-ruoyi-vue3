@@ -50,15 +50,17 @@
         <el-table-column label="执行时间" prop="handleTime" min-width="160">
           <template #default="{row}"><span>{{ parseTime(row.handleTime) }}</span></template>
         </el-table-column>
-        <el-table-column label="执行结果" prop="handleMsg" min-width="200"/>
-        <el-table-column label="执行备注" prop="username" min-width="200"/>
-        <!--
+        <el-table-column label="执行结果" prop="handleCode" min-width="100">
+          <template #default="{row}"><dict-tag :options="HandleResult" :value="row.handleCode"/></template>
+        </el-table-column>
+        <el-table-column label="执行备注" prop="handleMsg" min-width="160">
+          <template #default="{row}"><span>{{ row.handleMsg }}</span></template>
+        </el-table-column>
         <el-table-column label="操作" fixed='right' width="160">
           <template #default="{row}">
-            <el-button link type="danger" icon="Delete" @click="handleDelete(row)">删除</el-button>
+            <el-button link type="primary" icon="View" @click="handleLogDetail(row)">执行日志</el-button>
           </template>
         </el-table-column>
-        -->
       </el-table>
 
      <pagination
@@ -71,6 +73,7 @@
 
      <clean ref="cleanRef" @change="cleanResult"/>
      <trigger-remark ref="triggerRemarkRef"/>
+     <log-detail ref="logDetailRef"/>
    </div>
 </template>
 
@@ -80,9 +83,11 @@ import {jobgroupPage} from "@/api/jobgroup";
 import { parseTime } from '@/utils/ruoyi';
 import LogStatus from "@/api/dict/LogStatus.json"
 import TriggerResult from "@/api/dict/TriggerResult.json"
+import HandleResult from "@/api/dict/HandleResult.json"
 
 import Clean from "./components/clean"
 import TriggerRemark from "./components/triggerRemark"
+import LogDetail from "./components/logDetail"
 
 const { proxy } = getCurrentInstance();
 const route = useRoute();
@@ -230,6 +235,9 @@ function handleRriggerRemark(row) {
   proxy.$refs["triggerRemarkRef"].init(row);
 }
 
+function handleLogDetail(row) {
+  proxy.$refs["logDetailRef"].init(row);
+}
 
 init();
 </script>

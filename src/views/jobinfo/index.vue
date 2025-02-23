@@ -47,7 +47,7 @@
        <el-table-column label="负责人" prop="author" min-width="120"/>
        <el-table-column label="状态" prop="triggerStatus" width="80" fixed='right'>
          <template #default="{row}">
-           <el-switch v-model="row.triggerStatus" active-value="1" inactive-value="0" size="small" @click="changeTriggerStatus(row)"/>
+           <el-switch v-model="row.triggerStatus" :active-value="1" :inactive-value="0" size="small" @click="changeTriggerStatus(row)"/>
          </template>
        </el-table-column>
 
@@ -164,20 +164,20 @@ function resetQuery() {
 }
 
 function changeTriggerStatus(row) {
-  if (row.triggerStatus === '1') {
+  if (row.triggerStatus === 1) {
     jobinfoStart({id: row.id}).then(res => {
-      // do nothing
+      proxy.$modal.msgSuccess("开启成功！");
     }).catch(() => {
       proxy.$modal.msgError("开启失败！");
-      row.triggerStatus = '0';
+      row.triggerStatus = 0;
     });
   }
-  if (row.triggerStatus === '0') {
+  if (row.triggerStatus === 0) {
     jobinfoStop({id: row.id}).then(res => {
-      // do nothing
+      proxy.$modal.msgSuccess("关闭成功！");
     }).catch(() => {
       proxy.$modal.msgError("关闭失败！");
-      row.triggerStatus = '1';
+      row.triggerStatus = 1;
     });
   }
 }

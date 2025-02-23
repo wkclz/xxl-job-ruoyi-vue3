@@ -61,8 +61,8 @@ function submitForm() {
     if (valid) {
       jobinfoTrigger({
         id: form.value.id,
-        executorParam: form.value.executorParam,
-        addressList: form.value.addressList
+        executorParam: form.value.executorParam || '',
+        addressList: form.value.addressList || ''
       }).then(res => {
         proxy.$modal.msgSuccess('执行一次成功');
         open.value = false;

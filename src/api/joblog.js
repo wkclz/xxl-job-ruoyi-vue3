@@ -27,3 +27,12 @@ export function joblogClearLog(data) {
         headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
     });
 }
+export function joblogLogDetailCat(data) {
+    return request({
+        url: '/joblog/logDetailCat',
+        method: 'post',
+        data: tansParams(data),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+    });
+}
+
