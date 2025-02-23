@@ -11,7 +11,7 @@
       </div>
     </template>
 
-    <monaco-editor v-model="form.logContent" language="html" height="260px"/>
+    <monaco-editor v-model="form.logContent" language="html" height="660px"/>
     <template #footer>
       <div class="dialog-footer">
         <el-button type="primary" @click="cancel">确 定</el-button>
